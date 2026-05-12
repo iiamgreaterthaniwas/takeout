@@ -1,0 +1,10 @@
+node_modules
+dist
+.env
+.env.production
+.env.local
+*.log
+deploy.zip
+temp_deploy
+.vscode
+.DS_Store
