@@ -1,0 +1,124 @@
+import { ProductsService } from './products.service';
+export declare class ProductsController {
+    private readonly productsService;
+    constructor(productsService: ProductsService);
+    createProduct(req: any, data: any): Promise<{
+        id: number;
+        merchantId: number;
+        name: string;
+        price: import("@prisma/client/runtime/library").Decimal;
+        imageUrl: string | null;
+        description: string | null;
+        stock: number;
+        sales: number;
+        category: string | null;
+        status: import(".prisma/client").$Enums.ProductStatus;
+        createdAt: Date;
+        updatedAt: Date;
+    }>;
+    getMyProducts(req: any): Promise<{
+        id: number;
+        merchantId: number;
+        name: string;
+        price: import("@prisma/client/runtime/library").Decimal;
+        imageUrl: string | null;
+        description: string | null;
+        stock: number;
+        sales: number;
+        category: string | null;
+        status: import(".prisma/client").$Enums.ProductStatus;
+        createdAt: Date;
+        updatedAt: Date;
+    }[]>;
+    updateProduct(req: any, id: string, data: any): Promise<{
+        id: number;
+        merchantId: number;
+        name: string;
+        price: import("@prisma/client/runtime/library").Decimal;
+        imageUrl: string | null;
+        description: string | null;
+        stock: number;
+        sales: number;
+        category: string | null;
+        status: import(".prisma/client").$Enums.ProductStatus;
+        createdAt: Date;
+        updatedAt: Date;
+    }>;
+    deleteProduct(req: any, id: string): Promise<{
+        id: number;
+        merchantId: number;
+        name: string;
+        price: import("@prisma/client/runtime/library").Decimal;
+        imageUrl: string | null;
+        description: string | null;
+        stock: number;
+        sales: number;
+        category: string | null;
+        status: import(".prisma/client").$Enums.ProductStatus;
+        createdAt: Date;
+        updatedAt: Date;
+    }>;
+    getShopProducts(merchantId: string): Promise<{
+        id: number;
+        merchantId: number;
+        name: string;
+        price: import("@prisma/client/runtime/library").Decimal;
+        imageUrl: string | null;
+        description: string | null;
+        stock: number;
+        sales: number;
+        category: string | null;
+        status: import(".prisma/client").$Enums.ProductStatus;
+        createdAt: Date;
+        updatedAt: Date;
+    }[]>;
+    getAllProducts(status?: string): Promise<({
+        merchant: {
+            id: number;
+            userId: number;
+            shopName: string;
+            description: string | null;
+            logo: string | null;
+            address: string;
+            lat: number;
+            lng: number;
+            isOpen: boolean;
+            minOrder: import("@prisma/client/runtime/library").Decimal;
+            deliveryFee: import("@prisma/client/runtime/library").Decimal;
+            category: string | null;
+            phone: string | null;
+            licenseImg: string | null;
+            rating: number;
+            sales: number;
+            createdAt: Date;
+            updatedAt: Date;
+        };
+    } & {
+        id: number;
+        merchantId: number;
+        name: string;
+        price: import("@prisma/client/runtime/library").Decimal;
+        imageUrl: string | null;
+        description: string | null;
+        stock: number;
+        sales: number;
+        category: string | null;
+        status: import(".prisma/client").$Enums.ProductStatus;
+        createdAt: Date;
+        updatedAt: Date;
+    })[]>;
+    reviewProduct(id: string, status: 'approved' | 'rejected' | 'off'): Promise<{
+        id: number;
+        merchantId: number;
+        name: string;
+        price: import("@prisma/client/runtime/library").Decimal;
+        imageUrl: string | null;
+        description: string | null;
+        stock: number;
+        sales: number;
+        category: string | null;
+        status: import(".prisma/client").$Enums.ProductStatus;
+        createdAt: Date;
+        updatedAt: Date;
+    }>;
+}

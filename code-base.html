@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>大学城外卖小程序开发指南</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:"PingFang SC","Microsoft YaHei",sans-serif;color:#1a1a1a;background:#f5f5f0;line-height:1.7;font-size:15px}
+  .page{max-width:920px;margin:0 auto;background:#fff;padding:48px 56px;box-shadow:0 2px 16px rgba(0,0,0,.08)}
+  /* 封面 */
+  .cover{text-align:center;padding:60px 0 50px;border-bottom:2px solid #1A3A6B;margin-bottom:48px}
+  .cover h1{font-size:38px;font-weight:700;color:#1A3A6B;margin-bottom:10px}
+  .cover .sub{font-size:20px;color:#2E4A8A;margin-bottom:18px}
+  .cover .tags{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-top:20px}
+  .cover .tag{font-size:12px;padding:4px 14px;border-radius:20px;font-weight:600}
+  .t-blue{background:#E6F1FB;color:#185FA5}
+  .t-teal{background:#E1F5EE;color:#0F6E56}
+  .t-purple{background:#EEEDFE;color:#3C3489}
+  .t-amber{background:#FAEEDA;color:#854F0B}
+  .t-gray{background:#F1EFE8;color:#444441}
+  /* TOC */
+  .toc{background:#f9f8f5;border:1px solid #e8e6df;border-radius:10px;padding:24px 28px;margin-bottom:48px}
+  .toc h2{font-size:13px;font-weight:700;color:#888;letter-spacing:.08em;text-transform:uppercase;margin-bottom:14px}
+  .toc-grid{display:grid;grid-template-columns:1fr 1fr;gap:4px 32px}
+  .toc a{font-size:14px;color:#2E4A8A;text-decoration:none;padding:3px 0;display:block}
+  .toc a:hover{text-decoration:underline}
+  /* Sections */
+  h2.sec{font-size:22px;font-weight:700;color:#1A3A6B;margin:48px 0 16px;padding-bottom:8px;border-bottom:2px solid #2E4A8A}
+  h3.sub{font-size:16px;font-weight:700;color:#2E4A8A;margin:28px 0 10px}
+  h4.sub2{font-size:14px;font-weight:700;color:#3A5FA0;margin:20px 0 8px}
+  p{color:#444;font-size:14px;margin-bottom:10px}
+  /* Tables */
+  table{width:100%;border-collapse:collapse;font-size:13px;margin:12px 0 20px}
+  thead tr{background:#2E4A8A}
+  thead th{color:#fff;font-weight:600;padding:9px 13px;text-align:left;font-size:12px}
+  tbody tr:nth-child(even){background:#f7f7f5}
+  tbody tr:hover{background:#eef2fa}
+  td{padding:8px 13px;border-bottom:1px solid #e8e6df;color:#444;font-size:13px;vertical-align:top}
+  td:first-child{font-weight:600;color:#1a1a1a;white-space:nowrap}
+  /* Badges */
+  .badge{display:inline-block;font-size:11px;padding:2px 9px;border-radius:20px;font-weight:600;white-space:nowrap}
+  .b-blue{background:#E6F1FB;color:#185FA5}
+  .b-teal{background:#E1F5EE;color:#0F6E56}
+  .b-purple{background:#EEEDFE;color:#3C3489}
+  .b-amber{background:#FAEEDA;color:#854F0B}
+  .b-gray{background:#F1EFE8;color:#444441}
+  .b-green{background:#EAF3DE;color:#3B6D11}
+  .b-red{background:#FCEBEB;color:#A32D2D}
+  /* Cards */
+  .card-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:14px 0}
+  .card{background:#f9f8f5;border:1px solid #e8e6df;border-radius:10px;padding:16px}
+  .card-title{font-size:14px;font-weight:700;color:#1A3A6B;margin-bottom:6px}
+  .card-desc{font-size:12px;color:#666;line-height:1.6}
+  /* Flow */
+  .flow{display:flex;flex-wrap:wrap;align-items:center;gap:6px;background:#f0f4f8;border-radius:8px;padding:14px 16px;margin:12px 0}
+  .flow-step{font-size:12px;font-weight:600;padding:4px 12px;border-radius:20px;background:#fff;border:1px solid #c8d8ea;color:#185FA5}
+  .flow-arrow{color:#aaa;font-size:14px;font-weight:600}
+  /* Code */
+  pre{background:#1e2433;color:#d4e0f0;border-radius:8px;padding:18px 20px;font-family:"Courier New",monospace;font-size:12.5px;line-height:1.8;overflow-x:auto;margin:12px 0 20px;white-space:pre}
+  code{font-family:"Courier New",monospace;font-size:12px;background:#eef2fa;color:#2E4A8A;padding:1px 6px;border-radius:4px}
+  /* Tips */
+  .tip{background:#E6F1FB;border-left:4px solid #185FA5;border-radius:0 8px 8px 0;padding:12px 16px;margin:14px 0;font-size:13px;color:#0C447C}
+  .warn{background:#FAEEDA;border-left:4px solid #854F0B;border-radius:0 8px 8px 0;padding:12px 16px;margin:14px 0;font-size:13px;color:#633806}
+  .danger{background:#FCEBEB;border-left:4px solid #A32D2D;border-radius:0 8px 8px 0;padding:12px 16px;margin:14px 0;font-size:13px;color:#791F1F}
+  /* Phase */
+  .phase-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:14px 0}
+  .phase{background:#f9f8f5;border:1px solid #e8e6df;border-radius:10px;padding:16px}
+  .phase-num{font-size:11px;font-weight:700;color:#888;margin-bottom:4px}
+  .phase-title{font-size:15px;font-weight:700;color:#1A3A6B;margin-bottom:6px}
+  .phase-time{font-size:11px;padding:2px 9px;border-radius:20px;background:#E6F1FB;color:#185FA5;display:inline-block;margin-bottom:10px;font-weight:600}
+  .phase ul{list-style:none;font-size:12px;color:#555}
+  .phase ul li{padding:2px 0 2px 12px;position:relative}
+  .phase ul li::before{content:"·";position:absolute;left:0;color:#999}
+  /* Divider */
+  hr{border:none;border-top:1px solid #e8e6df;margin:40px 0}
+  /* Footer */
+  .footer{text-align:center;font-size:12px;color:#aaa;margin-top:60px;padding-top:20px;border-top:1px solid #e8e6df}
+  @media print{
+    body{background:#fff}
+    .page{box-shadow:none;padding:32px}
+    pre{font-size:11px}
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+<!-- 封面 -->
+<div class="cover">
+  <div class="tags">
+    <span class="tag t-blue">微信原生 WXML/WXSS/JS</span>
+    <span class="tag t-teal">NestJS 后端</span>
+    <span class="tag t-purple">微信支付 v3 + 分账</span>
+    <span class="tag t-amber">Socket.IO 实时位置</span>
+    <span class="tag t-gray">服务器本地文件存储</span>
+    <span class="tag t-blue">Vue3 后台管理</span>
+  </div>
+</div>
+
+<!-- 目录 -->
+<div class="toc">
+  <h2>目录</h2>
+  <div class="toc-grid">
+    <a href="#s1">一、项目概述</a>
+    <a href="#s6">六、微信支付与分账</a>
+    <a href="#s2">二、技术选型</a>
+    <a href="#s7">七、实时位置功能</a>
+    <a href="#s3">三、项目目录结构</a>
+    <a href="#s8">八、本地文件存储</a>
+    <a href="#s4">四、数据库设计</a>
+    <a href="#s9">九、权限控制与安全</a>
+    <a href="#s5">五、各端功能详细设计</a>
+    <a href="#s10">十、开发阶段规划</a>
+  </div>
+</div>
+
+<!-- 一、项目概述 -->
+<h2 class="sec" id="s1">一、项目概述</h2>
+<p>本项目是面向大学城场景的外卖小程序平台，覆盖用户点餐、商户接单、骑手配送、平台管理四大核心角色，支持微信支付与平台抽成分账机制。小程序端使用<strong>微信原生开发</strong>（WXML/WXSS/JavaScript），后台管理端为 Web 网页，服务端采用 NestJS。</p>
+
+<div class="card-grid">
+  <div class="card">
+    <div class="card-title">用户端</div>
+    <div class="card-desc">浏览商家、下单支付、实时追踪<br>申请商户 / 骑手入驻</div>
+  </div>
+  <div class="card">
+    <div class="card-title">商户端</div>
+    <div class="card-desc">管理店铺与商品<br>接单备餐（认证后解锁）</div>
+  </div>
+  <div class="card">
+    <div class="card-title">骑手端</div>
+    <div class="card-desc">接单配送<br>实时位置上报（认证后解锁）</div>
+  </div>
+  <div class="card">
+    <div class="card-title">后台管理</div>
+    <div class="card-desc">Web 网页（PC 端）<br>审核 · 佣金配置 · 数据统计</div>
+  </div>
+</div>
+
+<h3 class="sub">1.1 四端角色说明</h3>
+<table>
+  <thead><tr><th>端</th><th>角色</th><th>主要功能</th><th>技术形态</th></tr></thead>
+  <tbody>
+    <tr><td>用户端</td><td>普通用户</td><td>浏览商家、下单支付、申请入驻、实时追踪配送</td><td>微信小程序（原生）</td></tr>
+    <tr><td>商户端</td><td>认证商户</td><td>管理店铺信息、上架商品（需审核）、查看/处理订单</td><td>微信小程序（动态 Tab 解锁）</td></tr>
+    <tr><td>骑手端</td><td>认证骑手</td><td>查看待接订单、接单配送、实时 GPS 上报</td><td>微信小程序（动态 Tab 解锁）</td></tr>
+    <tr><td>后台管理端</td><td>平台运营</td><td>审核商户/骑手/商品、佣金设置、数据统计</td><td>Vue3 Web 网页（PC 端）</td></tr>
+  </tbody>
+</table>
+
+<h3 class="sub">1.2 核心业务流程</h3>
+<div class="flow">
+  <span class="flow-step">微信授权登录</span><span class="flow-arrow">→</span>
+  <span class="flow-step">申请商户/骑手</span><span class="flow-arrow">→</span>
+  <span class="flow-step">后台审核</span><span class="flow-arrow">→</span>
+  <span class="flow-step">解锁对应 Tab</span>
+</div>
+<div class="flow">
+  <span class="flow-step">商户上架商品</span><span class="flow-arrow">→</span>
+  <span class="flow-step">后台审核商品</span><span class="flow-arrow">→</span>
+  <span class="flow-step">用户下单支付</span><span class="flow-arrow">→</span>
+  <span class="flow-step">商户接单备餐</span><span class="flow-arrow">→</span>
+  <span class="flow-step">骑手取餐配送</span><span class="flow-arrow">→</span>
+  <span class="flow-step">用户确认收货</span><span class="flow-arrow">→</span>
+  <span class="flow-step">平台触发分账</span>
+</div>
+
+<hr>
+
+<!-- 二、技术选型 -->
+<h2 class="sec" id="s2">二、技术选型</h2>
+
+<h3 class="sub">2.1 整体技术栈</h3>
+<table>
+  <thead><tr><th>层级</th><th>技术</th><th>说明</th></tr></thead>
+  <tbody>
+    <tr><td>小程序前端</td><td><span class="badge b-blue">微信原生 WXML/WXSS/JS</span></td><td>无框架依赖，直接调用微信全部原生 API，性能最优，调试体验最好</td></tr>
+    <tr><td>小程序状态管理</td><td><span class="badge b-blue">app.js globalData + EventBus</span></td><td>全局用户信息、Token 存 globalData；页面间通信用简单事件总线</td></tr>
+    <tr><td>网络请求</td><td><span class="badge b-blue">wx.request 封装 Promise</span></td><td>统一封装 Token 注入、错误拦截、Loading 控制，支持请求队列</td></tr>
+    <tr><td>后台管理前端</td><td><span class="badge b-purple">Vue3 + Vite + Element Plus</span></td><td>PC 端管理后台，RBAC 权限控制，ECharts 数据看板</td></tr>
+    <tr><td>后端框架</td><td><span class="badge b-teal">Node.js + NestJS + TypeScript</span></td><td>模块化架构，Guards 权限控制，Pipes 参数校验，适合多角色大型项目</td></tr>
+    <tr><td>ORM</td><td><span class="badge b-teal">Prisma</span></td><td>类型安全，Schema 即文档，数据库迁移管理方便</td></tr>
+    <tr><td>主数据库</td><td><span class="badge b-teal">MySQL 8.0</span></td><td>业务数据持久化</td></tr>
+    <tr><td>缓存</td><td><span class="badge b-teal">Redis 7</span></td><td>Session、骑手实时位置缓存、订单状态缓存</td></tr>
+    <tr><td>实时通信</td><td><span class="badge b-amber">Socket.IO（WebSocket）</span></td><td>骑手 GPS 位置推送、订单状态实时更新、新订单通知</td></tr>
+    <tr><td>文件存储</td><td><span class="badge b-gray">服务器本地 + Nginx 静态托管</span></td><td>图片上传到本地 /uploads 目录，Nginx 直接提供静态文件服务</td></tr>
+    <tr><td>地图</td><td><span class="badge b-blue">微信原生 &lt;map&gt; + 腾讯位置服务</span></td><td>骑手实时位置展示，逆地理编码（坐标转地址），路线规划</td></tr>
+    <tr><td>支付</td><td><span class="badge b-purple">微信支付 v3 API</span></td><td>JSAPI 支付 + 分账接口，实现平台抽成</td></tr>
+    <tr><td>部署</td><td><span class="badge b-gray">Docker + Nginx + 腾讯云 CVM</span></td><td>容器化部署，HTTPS 必须，域名需 ICP 备案</td></tr>
+  </tbody>
+</table>
+
+<div class="tip">为什么选微信原生而非 uni-app？原生开发调用微信 API 更直接（支付、地图、订阅消息等），无编译层，调试体验更好，包体积更小。代价是仅支持微信小程序一端，不能编译到其他平台。</div>
+
+<hr>
+
+<!-- 三、项目结构 -->
+<h2 class="sec" id="s3">三、项目目录结构</h2>
+
+<h3 class="sub">3.1 小程序端（微信原生）</h3>
+<pre>miniprogram/
+├── app.js                  # 全局 App，globalData 存 token / userInfo / role
+├── app.json                # 全局路由注册，tabBar 配置（声明 custom: true）
+├── app.wxss                # 全局样式变量（颜色、间距等 CSS 变量）
+├── project.config.json     # 小程序项目配置（AppID 等）
+│
+├── custom-tab-bar/         # 自定义 tabBar 组件（按角色动态渲染）
+│   ├── index.js
+│   ├── index.wxml
+│   ├── index.wxss
+│   └── index.json
+│
+├── pages/
+│   ├── login/              # 微信授权登录页
+│   ├── index/              # 首页：附近商家列表（需定位权限）
+│   ├── shop/               # 商家详情页 + 购物车
+│   ├── order/
+│   │   ├── confirm/        # 确认下单页
+│   │   ├── list/           # 订单列表
+│   │   └── detail/         # 订单详情 + 支付入口
+│   ├── track/              # 实时追踪地图页（map 组件）
+│   ├── apply-merchant/     # 申请成为商户（表单 + 图片上传）
+│   ├── apply-rider/        # 申请成为骑手（表单 + 证件上传）
+│   ├── merchant/           # 商户管理（认证通过后解锁）
+│   │   ├── dashboard/      # 商户首页（今日订单概览）
+│   │   ├── products/       # 商品管理（添加/编辑/下架）
+│   │   └── orders/         # 商户订单处理
+│   ├── rider/              # 骑手接单（认证通过后解锁）
+│   │   ├── dashboard/      # 骑手首页（接单开关 + 待接列表）
+│   │   └── history/        # 历史接单记录
+│   └── profile/            # 个人中心（地址管理、账号设置）
+│
+├── utils/
+│   ├── request.js          # wx.request Promise 封装（含 Token 拦截）
+│   ├── socket.js           # Socket.IO 连接封装
+│   └── auth.js             # Token 读写、登录态检查、跳转登录
+│
+└── components/             # 公共组件
+    ├── product-card/       # 商品卡片
+    ├── order-card/         # 订单卡片
+    └── address-picker/     # 地址选择器</pre>
+
+<h3 class="sub">3.2 后端（NestJS）</h3>
+<pre>server/
+├── src/
+│   ├── main.ts
+│   ├── app.module.ts
+│   ├── auth/               # JWT 认证、微信 code2session 换取 openid
+│   ├── users/              # 用户信息 CRUD
+│   ├── applications/       # 商户/骑手申请（提交、查询状态）
+│   ├── merchants/          # 商户管理（店铺信息、开关营业）
+│   ├── riders/             # 骑手管理（在线状态、历史订单）
+│   ├── products/           # 商品 CRUD + 审核状态管理
+│   ├── orders/             # 订单全流程（创建、状态流转、分配骑手）
+│   ├── payment/            # 微信支付下单、回调处理、分账
+│   ├── upload/             # 文件上传（本地存储，Multer）
+│   ├── gateway/            # Socket.IO 网关（位置推送、订单通知）
+│   ├── admin/              # 后台管理专用接口（审核、统计）
+│   └── config/             # 系统配置（佣金比例、运费规则）
+│
+├── prisma/
+│   └── schema.prisma       # 数据库 Schema 定义
+│
+└── uploads/                # 本地文件存储目录（Nginx 静态托管）
+    ├── products/2025-06/
+    ├── licenses/
+    ├── id-cards/
+    └── avatars/</pre>
+
+<h3 class="sub">3.3 后台管理端（Vue3）</h3>
+<pre>admin-web/
+├── src/
+│   ├── views/
+│   │   ├── review/         # 审核中心（商户/骑手/商品）
+│   │   ├── settings/       # 佣金配置、运费规则
+│   │   ├── users/          # 用户管理
+│   │   ├── orders/         # 订单管理 + 退款
+│   │   └── dashboard/      # 数据统计看板（ECharts）
+│   ├── api/                # 接口封装（axios）
+│   ├── router/             # 路由 + 权限守卫
+│   └── store/              # Pinia 状态管理
+└── vite.config.ts</pre>
+
+<hr>
+
+<!-- 四、数据库设计 -->
+<h2 class="sec" id="s4">四、核心数据库设计</h2>
+
+<h3 class="sub">4.1 主要数据表</h3>
+<table>
+  <thead><tr><th>表名</th><th>说明</th><th>核心字段</th></tr></thead>
+  <tbody>
+    <tr><td>users</td><td>全平台用户</td><td>id, openid, nickname, avatar, phone, role, status, created_at</td></tr>
+    <tr><td>merchant_applications</td><td>商户申请记录</td><td>id, user_id, shop_name, license_img, address, contact_phone, status(pending/approved/rejected), reject_reason</td></tr>
+    <tr><td>rider_applications</td><td>骑手申请记录</td><td>id, user_id, real_name, id_card, id_card_img, vehicle_type, status, reject_reason</td></tr>
+    <tr><td>merchants</td><td>已认证商户</td><td>id, user_id, shop_name, description, logo, address, lat, lng, is_open, min_order, category</td></tr>
+    <tr><td>riders</td><td>已认证骑手</td><td>id, user_id, real_name, is_online, current_lat, current_lng, rating, total_orders</td></tr>
+    <tr><td>products</td><td>商品</td><td>id, merchant_id, name, price, image_url, description, stock, status(pending/approved/rejected/off)</td></tr>
+    <tr><td>orders</td><td>订单主表</td><td>id, user_id, merchant_id, rider_id, total_amount, delivery_fee, status, address, address_detail, remark</td></tr>
+    <tr><td>order_items</td><td>订单商品明细</td><td>id, order_id, product_id, product_name, quantity, unit_price</td></tr>
+    <tr><td>payments</td><td>支付记录</td><td>id, order_id, wx_prepay_id, wx_transaction_id, amount, platform_fee, status, paid_at</td></tr>
+    <tr><td>commission_settings</td><td>佣金配置</td><td>id, product_rate(商品抽成%), delivery_rate(运费抽成%), delivery_rules(JSON), updated_by, updated_at</td></tr>
+    <tr><td>addresses</td><td>用户收货地址</td><td>id, user_id, name, phone, address, detail, lat, lng, is_default</td></tr>
+  </tbody>
+</table>
+
+<h3 class="sub">4.2 订单状态流转</h3>
+<div class="flow">
+  <span class="flow-step">pending_payment 待支付</span><span class="flow-arrow">→</span>
+  <span class="flow-step">paid 已支付</span><span class="flow-arrow">→</span>
+  <span class="flow-step">accepted 商户接单</span><span class="flow-arrow">→</span>
+  <span class="flow-step">preparing 备餐中</span><span class="flow-arrow">→</span>
+  <span class="flow-step">ready 待取餐</span><span class="flow-arrow">→</span>
+  <span class="flow-step">delivering 配送中</span><span class="flow-arrow">→</span>
+  <span class="flow-step">delivered 已送达</span><span class="flow-arrow">→</span>
+  <span class="flow-step">completed 已完成</span>
+</div>
+<p>异常状态：<span class="badge b-red">cancelled 已取消</span> &nbsp; <span class="badge b-amber">refund_pending 退款中</span> &nbsp; <span class="badge b-gray">refunded 已退款</span></p>
+
+<h3 class="sub">4.3 Prisma Schema 示例</h3>
+<pre>// prisma/schema.prisma
+model Order {
+  id           Int         @id @default(autoincrement())
+  userId       Int
+  merchantId   Int
+  riderId      Int?
+  totalAmount  Decimal     @db.Decimal(10, 2)
+  deliveryFee  Decimal     @db.Decimal(10, 2)
+  status       OrderStatus @default(pending_payment)
+  address      String
+  addressDetail String
+  remark       String?
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+
+  user         User        @relation(fields: [userId], references: [id])
+  merchant     Merchant    @relation(fields: [merchantId], references: [id])
+  rider        Rider?      @relation(fields: [riderId], references: [id])
+  items        OrderItem[]
+  payment      Payment?
+}
+
+enum OrderStatus {
+  pending_payment
+  paid
+  accepted
+  preparing
+  ready
+  delivering
+  delivered
+  completed
+  cancelled
+  refunded
+}</pre>
+
+<hr>
+
+<!-- 五、各端功能设计 -->
+<h2 class="sec" id="s5">五、各端功能详细设计</h2>
+
+<h3 class="sub">5.1 动态 Tab 实现（关键难点）</h3>
+<p>微信小程序原生 tabBar 不支持运行时动态增减。解决方案：在 app.json 中声明 <code>"custom": true</code>，使用<strong>自定义 tabBar 组件</strong>，根据用户角色动态渲染不同的 tab 项目。</p>
+<pre>// app.json
+{
+  "tabBar": {
+    "custom": true,
+    "list": [
+      { "pagePath": "pages/index/index" },
+      { "pagePath": "pages/order/list/index" },
+      { "pagePath": "pages/merchant/dashboard/index" },
+      { "pagePath": "pages/rider/dashboard/index" },
+      { "pagePath": "pages/profile/index" }
+    ]
+  }
+}
+
+// custom-tab-bar/index.js
+Component({
+  data: { tabs: [], selected: 0 },
+  attached() {
+    const { role } = getApp().globalData.userInfo || {};
+    const base = [
+      { text: '首页', icon: 'home', path: 'pages/index/index' },
+      { text: '订单', icon: 'list', path: 'pages/order/list/index' },
+      { text: '我的', icon: 'user', path: 'pages/profile/index' },
+    ];
+    if (role === 'merchant' || role === 'both') {
+      base.splice(2, 0, {
+        text: '商户', icon: 'shop', path: 'pages/merchant/dashboard/index'
+      });
+    }
+    if (role === 'rider' || role === 'both') {
+      base.splice(-1, 0, {
+        text: '接单', icon: 'bike', path: 'pages/rider/dashboard/index'
+      });
+    }
+    this.setData({ tabs: base });
+  },
+  methods: {
+    switchTab(e) {
+      const path = e.currentTarget.dataset.path;
+      wx.switchTab({ url: '/' + path });
+    }
+  }
+})</pre>
+
+<h3 class="sub">5.2 用户端功能</h3>
+<table>
+  <thead><tr><th>功能</th><th>实现要点</th></tr></thead>
+  <tbody>
+    <tr><td>微信登录</td><td>wx.login 获取 code → POST /auth/wx-login → 后端调用微信 code2session 换取 openid → 返回 JWT Token，存入 wx.setStorageSync</td></tr>
+    <tr><td>首页商家列表</td><td>页面 onLoad 时调用 wx.getLocation 获取坐标 → 传入接口按距离排序返回商家 → scroll-view 渲染列表，支持下拉刷新和上拉加载更多</td></tr>
+    <tr><td>商品浏览/购物车</td><td>购物车数据存页面 data 中，用 wx:for 渲染。商品加减用 dataset 传 id，避免频繁 setData</td></tr>
+    <tr><td>申请商户</td><td>表单收集：店铺名/地址/电话/类目 + wx.chooseMedia 选营业执照图片 → wx.uploadFile 上传到 /upload 接口 → 提交申请</td></tr>
+    <tr><td>申请骑手</td><td>表单收集：姓名/身份证号/交通工具 + 上传手持身份证照片 → 提交申请 → 等待审核</td></tr>
+    <tr><td>微信支付</td><td>POST /orders 创建订单 → POST /payment/prepay 获取 prepayId → wx.requestPayment 拉起支付 → 监听 success/fail 回调 → 轮询或 Socket 确认支付状态</td></tr>
+    <tr><td>实时追踪</td><td>订单配送中时进入追踪页，建立 Socket 连接加入 room_{orderId}，监听 location_update 事件更新 map 组件 markers 坐标</td></tr>
+    <tr><td>订阅消息</td><td>下单时调用 wx.requestSubscribeMessage 获取审核通知/新订单通知授权，后端通过微信订阅消息接口推送</td></tr>
+  </tbody>
+</table>
+
+<h3 class="sub">5.3 商户端功能（认证后解锁）</h3>
+<table>
+  <thead><tr><th>功能</th><th>实现要点</th></tr></thead>
+  <tbody>
+    <tr><td>店铺开关</td><td>切换 is_open 状态，关闭后用户端不显示该商家，接口需校验商户身份</td></tr>
+    <tr><td>添加商品</td><td>填写名称/价格/描述 + wx.chooseMedia 选商品图 → 上传图片获取 URL → POST /products（status: pending）→ 等待后台审核通过后对用户可见</td></tr>
+    <tr><td>新订单通知</td><td>Socket.IO 监听 new_order 事件，wx.vibrateShort 震动提醒，展示弹窗让商户确认接单或拒绝</td></tr>
+    <tr><td>订单状态操作</td><td>接单（accepted）→ 备餐完成（ready），每次操作通过接口更新状态，服务端触发 Socket 通知对应用户</td></tr>
+  </tbody>
+</table>
+
+<h3 class="sub">5.4 骑手端功能（认证后解锁）</h3>
+<table>
+  <thead><tr><th>功能</th><th>实现要点</th></tr></thead>
+  <tbody>
+    <tr><td>上下线切换</td><td>切换 is_online 状态，上线后才能收到附近订单推送，同时 Socket 加入 riders 房间</td></tr>
+    <tr><td>接单</td><td>获取附近 ready 状态订单列表（按距离排序）→ 点击接单 → 后端乐观锁防止多骑手抢同一单（UPDATE … WHERE rider_id IS NULL）</td></tr>
+    <tr><td>位置上报</td><td>接单后 setInterval（5000ms）调用 wx.getLocation → socket.emit('rider_location', {orderId, lat, lng}) → 页面 onHide/订单完成时 clearInterval</td></tr>
+    <tr><td>送达确认</td><td>骑手点击"确认送达" → 订单状态更新为 delivered → clearInterval 停止上报 → 通知用户确认</td></tr>
+    <tr><td>收入记录</td><td>查看历史接单列表，展示每单配送费和实收金额（扣除平台抽成后）</td></tr>
+  </tbody>
+</table>
+
+<h3 class="sub">5.5 后台管理端（Vue3 Web）</h3>
+<table>
+  <thead><tr><th>模块</th><th>功能详情</th></tr></thead>
+  <tbody>
+    <tr><td>审核中心</td><td>商户申请列表、骑手申请列表、商品审核列表。查看图片资料（营业执照/证件照），一键通过/拒绝（拒绝需填写原因），审核结果通过微信订阅消息通知用户</td></tr>
+    <tr><td>佣金配置</td><td>设置商品抽成比例（%）、运费抽成比例（%）、运费计算规则（固定或距离阶梯），保存后立即从 commission_settings 表读取生效</td></tr>
+    <tr><td>用户管理</td><td>查看全部用户、封禁/解封账号、查看用户角色和状态</td></tr>
+    <tr><td>商户管理</td><td>查看全部商户、强制下线店铺、查看店铺流水</td></tr>
+    <tr><td>骑手管理</td><td>查看在线骑手分布（地图标记）、历史接单统计</td></tr>
+    <tr><td>订单管理</td><td>全平台订单列表、按状态筛选、退款处理（调微信支付退款接口并触发分账回退）</td></tr>
+    <tr><td>数据看板</td><td>ECharts 折线图展示日/周/月 GMV 趋势、订单量、新增用户数；饼图展示各商家订单占比</td></tr>
+  </tbody>
+</table>
+
+<hr>
+
+<!-- 六、微信支付与分账 -->
+<h2 class="sec" id="s6">六、微信支付与分账</h2>
+
+<h3 class="sub">6.1 支付流程</h3>
+<div class="flow">
+  <span class="flow-step">① 前端提交订单</span><span class="flow-arrow">→</span>
+  <span class="flow-step">② 后端 JSAPI 统一下单</span><span class="flow-arrow">→</span>
+  <span class="flow-step">③ 返回签名支付参数</span><span class="flow-arrow">→</span>
+  <span class="flow-step">④ wx.requestPayment</span><span class="flow-arrow">→</span>
+  <span class="flow-step">⑤ 微信异步回调 Webhook</span><span class="flow-arrow">→</span>
+  <span class="flow-step">⑥ 验签 + 更新订单状态</span>
+</div>
+
+<pre>// payment.service.ts（后端 - 统一下单）
+async createPrepay(orderId: number, openid: string) {
+  const order = await this.prisma.order.findUnique({ where: { id: orderId } });
+  const result = await this.wxpay.transactions_jsapi({
+    appid: process.env.WX_APPID,
+    mchid: process.env.WX_MCHID,
+    description: `订单 #${orderId}`,
+    out_trade_no: `ORDER_${orderId}_${Date.now()}`,
+    notify_url: `${process.env.SERVER_URL}/payment/callback`,
+    amount: { total: Math.round(Number(order.totalAmount) * 100), currency: 'CNY' },
+    payer: { openid },
+  });
+  return this.wxpay.buildJsapiParams(result.prepay_id); // 返回前端支付参数
+}
+
+// 支付回调（Webhook）
+async handleCallback(body: any, headers: any) {
+  const verified = await this.wxpay.verifySign(headers, body); // 验签
+  if (!verified) throw new BadRequestException('签名验证失败');
+  const { out_trade_no, transaction_id } = body.resource.decryptedData;
+  const orderId = parseInt(out_trade_no.split('_')[1]);
+  await this.prisma.order.update({
+    where: { id: orderId },
+    data: { status: 'paid' }
+  });
+  await this.prisma.payment.update({
+    where: { orderId },
+    data: { wxTransactionId: transaction_id, status: 'paid', paidAt: new Date() }
+  });
+}</pre>
+
+<h3 class="sub">6.2 分账资金流向</h3>
+<p>以用户支付 ¥35（商品 ¥30 + 运费 ¥5），设商品抽成 5%、运费抽成 10% 为例：</p>
+<table>
+  <thead><tr><th>接收方</th><th>计算方式</th><th>到账金额</th></tr></thead>
+  <tbody>
+    <tr><td>商户</td><td>¥30 × (1 - 5%) = ¥30 × 0.95</td><td><strong>¥28.50</strong></td></tr>
+    <tr><td>骑手</td><td>¥5 × (1 - 10%) = ¥5 × 0.90</td><td><strong>¥4.50</strong></td></tr>
+    <tr><td>平台</td><td>¥30×5% + ¥5×10% = ¥1.50 + ¥0.50</td><td><strong>¥2.00</strong></td></tr>
+  </tbody>
+</table>
+
+<h3 class="sub">6.3 关键 API 接口</h3>
+<table>
+  <thead><tr><th>接口</th><th>用途</th></tr></thead>
+  <tbody>
+    <tr><td><code>POST /v3/pay/transactions/jsapi</code></td><td>统一下单，获取 prepay_id</td></tr>
+    <tr><td><code>GET /v3/pay/transactions/id/{id}</code></td><td>主动查询支付结果</td></tr>
+    <tr><td><code>POST /v3/profitsharing/orders</code></td><td>申请分账（订单完成后触发）</td></tr>
+    <tr><td><code>GET /v3/profitsharing/orders/{no}</code></td><td>查询分账结果</td></tr>
+    <tr><td><code>POST /v3/profitsharing/return-orders</code></td><td>分账回退（退款时调用）</td></tr>
+    <tr><td><code>POST /v3/refund/domestic/refunds</code></td><td>申请退款</td></tr>
+  </tbody>
+</table>
+
+<div class="warn">分账功能需在微信支付商户后台单独申请权限，审核周期约 5-10 个工作日，请提前准备。商户和骑手需绑定分账接收方账号后才能收到资金。建议订单完成 T+1 后触发分账，留出退款缓冲期。</div>
+
+<hr>
+
+<!-- 七、实时位置 -->
+<h2 class="sec" id="s7">七、实时位置功能</h2>
+
+<h3 class="sub">7.1 技术架构</h3>
+<table>
+  <thead><tr><th>角色</th><th>行为</th></tr></thead>
+  <tbody>
+    <tr><td>骑手端（小程序）</td><td>接单后启动 setInterval（5秒），调用 wx.getLocation(type:'gcj02') 获取坐标，通过 Socket emit('rider_location', {orderId, lat, lng})</td></tr>
+    <tr><td>服务端（NestJS Gateway）</td><td>接收骑手坐标 → 写入 Redis（key: rider:{id}:loc，TTL 30s）→ 推送到 Socket 房间 room_order_{orderId}</td></tr>
+    <tr><td>用户端（小程序）</td><td>进入追踪页后 socket.emit('join_order', orderId) 加入房间，监听 location_update 事件更新 map 组件 markers</td></tr>
+  </tbody>
+</table>
+
+<h3 class="sub">7.2 核心代码实现</h3>
+<pre>// ===== 骑手端：位置上报 =====
+Page({
+  data: { _trackTimer: null },
+
+  startTracking(orderId) {
+    this.data._trackTimer = setInterval(() => {
+      wx.getLocation({
+        type: 'gcj02',
+        success: ({ latitude, longitude }) => {
+          getApp().socket.emit('rider_location', {
+            orderId, lat: latitude, lng: longitude
+          });
+        }
+      });
+    }, 5000);
+  },
+
+  stopTracking() {
+    clearInterval(this.data._trackTimer);
+    this.data._trackTimer = null;
+  },
+
+  onHide() { this.stopTracking(); },
+  onUnload() { this.stopTracking(); }
+});
+
+// ===== 用户端：地图追踪 =====
+Page({
+  onLoad({ orderId }) {
+    this.orderId = orderId;
+    const socket = getApp().socket;
+    socket.emit('join_order', orderId);
+    socket.on('location_update', ({ lat, lng }) => {
+      this.setData({
+        riderMarker: [{ id: 1, latitude: lat, longitude: lng,
+          iconPath: '/images/rider.png', width: 32, height: 32,
+          callout: { content: '骑手位置', display: 'ALWAYS', fontSize: 12 }
+        }]
+      });
+    });
+  },
+  onUnload() {
+    getApp().socket.emit('leave_order', this.orderId);
+    getApp().socket.off('location_update');
+  }
+});</pre>
+
+<pre>// ===== NestJS Socket.IO Gateway =====
+@WebSocketGateway({ cors: true })
+export class LocationGateway {
+  @WebSocketServer() server: Server;
+
+  @SubscribeMessage('rider_location')
+  async handleLocation(client: Socket, data: { orderId: number, lat: number, lng: number }) {
+    const riderId = client.data.userId;
+    // 缓存到 Redis（30秒过期，骑手掉线自动清除）
+    await this.redis.setex(`rider:${riderId}:loc`, 30,
+      JSON.stringify({ lat: data.lat, lng: data.lng })
+    );
+    // 推送到对应订单的用户
+    this.server.to(`room_order_${data.orderId}`)
+      .emit('location_update', { lat: data.lat, lng: data.lng });
+  }
+
+  @SubscribeMessage('join_order')
+  handleJoin(client: Socket, orderId: number) {
+    client.join(`room_order_${orderId}`);
+  }
+}</pre>
+
+<div class="danger">骑手离线、订单完成或取消后，务必 clearInterval 停止位置上报，并调用 socket.emit('leave_order') 离开房间，避免 GPS 持续消耗电量和产生无效 Redis 写入。</div>
+
+<hr>
+
+<!-- 八、本地文件存储 -->
+<h2 class="sec" id="s8">八、本地文件存储方案</h2>
+
+<h3 class="sub">8.1 目录规划</h3>
+<pre>server/uploads/
+├── products/
+│   ├── 2025-06/            # 按年月分目录，避免单目录文件过多
+│   └── 2025-07/
+├── licenses/               # 营业执照（审核用，可限制访问）
+├── id-cards/               # 骑手身份证（敏感，建议只允许后台访问）
+└── avatars/                # 用户头像</pre>
+
+<h3 class="sub">8.2 NestJS 上传接口（Multer）</h3>
+<pre>// upload.controller.ts
+@Post('upload')
+@UseGuards(JwtAuthGuard)
+@UseInterceptors(FileInterceptor('file', {
+  storage: diskStorage({
+    destination: (req, file, cb) => {
+      const type = (req.query.type as string) || 'misc'; // products/licenses/id-cards
+      const month = new Date().toISOString().slice(0, 7);  // 2025-06
+      const dir = path.join(process.cwd(), 'uploads', type, month);
+      fs.mkdirSync(dir, { recursive: true });
+      cb(null, dir);
+    },
+    filename: (req, file, cb) => {
+      const ext = path.extname(file.originalname).toLowerCase();
+      cb(null, `${uuidv4()}${ext}`);  // 随机文件名，防止路径遍历攻击
+    },
+  }),
+  fileFilter: (req, file, cb) => {
+    const allowed = ['image/jpeg', 'image/png', 'image/webp'];
+    cb(null, allowed.includes(file.mimetype));
+  },
+  limits: { fileSize: 10 * 1024 * 1024 },  // 最大 10MB
+}))
+uploadFile(@UploadedFile() file: Express.Multer.File) {
+  // 返回可访问的 URL（由 Nginx 静态托管）
+  const relativePath = file.path.replace(process.cwd() + '/uploads/', '');
+  return { url: `${process.env.BASE_URL}/uploads/${relativePath}` };
+}</pre>
+
+<h3 class="sub">8.3 Nginx 静态文件托管配置</h3>
+<pre>server {
+    listen 443 ssl;
+    server_name yourdomain.com;
+
+    ssl_certificate     /etc/ssl/certs/yourdomain.pem;
+    ssl_certificate_key /etc/ssl/private/yourdomain.key;
+
+    # 静态文件直接由 Nginx 提供，不经过 NestJS 进程
+    location /uploads/ {
+        alias /home/www/server/uploads/;
+        expires 30d;
+        add_header Cache-Control "public, immutable";
+
+        # 敏感目录只允许后台访问（可选）
+        # location /uploads/id-cards/ {
+        #     allow 127.0.0.1;
+        #     deny all;
+        # }
+    }
+
+    # API 和 WebSocket 请求转发给 NestJS
+    location /api/ {
+        proxy_pass http://127.0.0.1:3000;
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+    }
+
+    # WebSocket 升级（Socket.IO）
+    location /socket.io/ {
+        proxy_pass http://127.0.0.1:3000;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+    }
+}</pre>
+
+<h3 class="sub">8.4 备份策略</h3>
+<pre># 每天凌晨 3 点 rsync 备份到远程服务器（加入 crontab）
+0 3 * * * rsync -avz --delete /home/www/server/uploads/ backup@remote-server:/backup/uploads/
+
+# 或备份到同机器的另一块磁盘
+0 3 * * * rsync -avz /home/www/server/uploads/ /mnt/backup-disk/uploads/</pre>
+
+<div class="warn">生产环境必须配置备份，营业执照、身份证等资质文件一旦丢失无法恢复。文件路径在代码中使用 <code>process.env.BASE_URL</code> 配置项，将来迁移到 OSS 只需修改环境变量，不改业务代码。</div>
+
+<hr>
+
+<!-- 九、权限与安全 -->
+<h2 class="sec" id="s9">九、权限控制与安全</h2>
+
+<h3 class="sub">9.1 RBAC 角色权限</h3>
+<table>
+  <thead><tr><th>角色</th><th>获取方式</th><th>权限范围</th></tr></thead>
+  <tbody>
+    <tr><td><span class="badge b-gray">user</span></td><td>默认角色</td><td>点餐、支付、查看自己的订单、申请商户/骑手</td></tr>
+    <tr><td><span class="badge b-blue">merchant</span></td><td>申请审核通过</td><td>管理自己店铺、上架商品、查看/处理自己店铺的订单</td></tr>
+    <tr><td><span class="badge b-teal">rider</span></td><td>申请审核通过</td><td>接单、上报位置、查看自己的配送任务</td></tr>
+    <tr><td><span class="badge b-purple">admin</span></td><td>后台创建</td><td>全平台数据读写、审核操作、系统配置</td></tr>
+  </tbody>
+</table>
+
+<h3 class="sub">9.2 NestJS 权限实现</h3>
+<pre>// roles.guard.ts
+@Injectable()
+export class RolesGuard implements CanActivate {
+  constructor(private reflector: Reflector) {}
+  canActivate(context: ExecutionContext): boolean {
+    const requiredRoles = this.reflector.get&lt;string[]&gt;('roles', context.getHandler());
+    if (!requiredRoles) return true;
+    const { user } = context.switchToHttp().getRequest();
+    return requiredRoles.some(role => user.role === role);
+  }
+}
+
+// 在 Controller 中使用
+@Get('my-shop')
+@UseGuards(JwtAuthGuard, RolesGuard)
+@SetMetadata('roles', ['merchant', 'admin'])
+getMyShop(@Request() req) { ... }</pre>
+
+<h3 class="sub">9.3 安全注意事项</h3>
+<table>
+  <thead><tr><th>场景</th><th>措施</th></tr></thead>
+  <tbody>
+    <tr><td>接口鉴权</td><td>全局 JwtAuthGuard，每个接口 + @SetMetadata('roles', [...]) 声明所需角色</td></tr>
+    <tr><td>支付回调安全</td><td>使用微信平台公钥对 Webhook 请求进行 RSA 验签，防止伪造回调攻击</td></tr>
+    <tr><td>幂等处理</td><td>支付回调、分账操作做幂等校验，同一订单的回调重复触发不会重复处理</td></tr>
+    <tr><td>文件上传</td><td>MIME 类型白名单校验 + 文件大小限制（10MB）+ UUID 随机文件名防路径遍历</td></tr>
+    <tr><td>敏感数据</td><td>身份证号、手机号在数据库中 AES-256 加密存储，日志中脱敏</td></tr>
+    <tr><td>接口限流</td><td>@nestjs/throttler 全局限流（100次/分钟），下单/支付接口单独加严（10次/分钟）</td></tr>
+    <tr><td>位置隐私</td><td>Socket 房间按 orderId 隔离，用户只能看到为自己配送的骑手位置</td></tr>
+    <tr><td>数据越权</td><td>商户只能操作自己的店铺/商品/订单，接口中校验 merchantId === req.user.merchantId</td></tr>
+    <tr><td>HTTPS</td><td>微信小程序要求所有请求 HTTPS / WSS，Nginx 配置 SSL 证书（Let's Encrypt 免费）</td></tr>
+  </tbody>
+</table>
+
+<hr>
+
+<!-- 十、开发阶段规划 -->
+<h2 class="sec" id="s10">十、开发阶段规划</h2>
+
+<h3 class="sub">10.1 开发顺序（推荐）</h3>
+<div class="phase-grid">
+  <div class="phase">
+    <div class="phase-num">阶段一</div>
+    <div class="phase-title">基础架构</div>
+    <div class="phase-time">1-2 周</div>
+    <ul>
+      <li>NestJS 项目初始化</li>
+      <li>Prisma Schema + 数据库迁移</li>
+      <li>JWT 认证模块</li>
+      <li>微信 code2session 登录接口</li>
+      <li>小程序登录页 + request 封装</li>
+    </ul>
+  </div>
+  <div class="phase">
+    <div class="phase-num">阶段二</div>
+    <div class="phase-title">审核入驻流程</div>
+    <div class="phase-time">1-2 周</div>
+    <ul>
+      <li>文件上传接口（Multer）</li>
+      <li>申请商户/骑手接口</li>
+      <li>后台审核 Vue3 界面</li>
+      <li>自定义 tabBar 组件</li>
+      <li>微信订阅消息通知</li>
+    </ul>
+  </div>
+  <div class="phase">
+    <div class="phase-num">阶段三</div>
+    <div class="phase-title">商品与点餐</div>
+    <div class="phase-time">2 周</div>
+    <ul>
+      <li>商品 CRUD + 审核流程</li>
+      <li>首页商家列表 + 定位</li>
+      <li>购物车与确认下单</li>
+      <li>订单状态流转接口</li>
+      <li>商户接单页面</li>
+    </ul>
+  </div>
+  <div class="phase">
+    <div class="phase-num">阶段四</div>
+    <div class="phase-title">支付与分账</div>
+    <div class="phase-time">1-2 周</div>
+    <ul>
+      <li>接入微信支付 v3</li>
+      <li>支付回调验签处理</li>
+      <li>佣金配置后台界面</li>
+      <li>分账接口联调</li>
+      <li>退款流程</li>
+    </ul>
+  </div>
+  <div class="phase">
+    <div class="phase-num">阶段五</div>
+    <div class="phase-title">实时功能</div>
+    <div class="phase-time">1 周</div>
+    <ul>
+      <li>Socket.IO 集成</li>
+      <li>骑手位置上报</li>
+      <li>用户端地图追踪页</li>
+      <li>新订单实时推送</li>
+      <li>骑手接单分配逻辑</li>
+    </ul>
+  </div>
+  <div class="phase">
+    <div class="phase-num">阶段六</div>
+    <div class="phase-title">完善与上线</div>
+    <div class="phase-time">1-2 周</div>
+    <ul>
+      <li>全端联调测试</li>
+      <li>UI 细节完善</li>
+      <li>Docker + Nginx 部署</li>
+      <li>域名备案 + HTTPS</li>
+      <li>小程序审核发布</li>
+    </ul>
+  </div>
+</div>
+
+<h3 class="sub">10.2 开发前必须准备的资源</h3>
+<table>
+  <thead><tr><th>资源</th><th>用途</th><th>备注</th></tr></thead>
+  <tbody>
+    <tr><td>微信小程序账号</td><td>AppID、开发者工具登录</td><td>需企业或个人主体注册，实名认证</td></tr>
+    <tr><td>微信支付商户号</td><td>支付 + 分账</td><td>需企业主体 + 营业执照，个人无法申请</td></tr>
+    <tr><td>腾讯位置服务 Key</td><td>地图展示、逆地理编码</td><td>免费额度基本够用，超出按调用次数计费</td></tr>
+    <tr><td>云服务器 CVM</td><td>后端部署</td><td>2核4G 起步，需开放 80/443/3000 端口</td></tr>
+    <tr><td>域名 + ICP 备案</td><td>微信小程序服务器要求</td><td>备案周期 1-3 周，需提前申请</td></tr>
+    <tr><td>SSL 证书</td><td>HTTPS 必须</td><td>Let's Encrypt 免费证书即可</td></tr>
+  </tbody>
+</table>
+
+<h3 class="sub">10.3 推荐第三方库清单</h3>
+<table>
+  <thead><tr><th>库/工具</th><th>用途</th><th>适用端</th></tr></thead>
+  <tbody>
+    <tr><td>wechatpay-node-v3</td><td>微信支付 v3 API Node.js SDK</td><td>后端</td></tr>
+    <tr><td>@nestjs/platform-socket.io</td><td>Socket.IO 集成</td><td>后端</td></tr>
+    <tr><td>prisma + @prisma/client</td><td>类型安全 ORM</td><td>后端</td></tr>
+    <tr><td>ioredis</td><td>Redis 客户端</td><td>后端</td></tr>
+    <tr><td>@nestjs/throttler</td><td>接口频率限制</td><td>后端</td></tr>
+    <tr><td>multer</td><td>文件上传处理</td><td>后端</td></tr>
+    <tr><td>class-validator + class-transformer</td><td>接口参数校验</td><td>后端</td></tr>
+    <tr><td>socket.io-client（小程序版）</td><td>小程序 Socket 连接</td><td>小程序</td></tr>
+    <tr><td>miniprogram-api-promise</td><td>wx API Promise 化工具</td><td>小程序</td></tr>
+    <tr><td>vue3 + vite + element-plus</td><td>后台管理前端</td><td>管理端</td></tr>
+    <tr><td>echarts</td><td>数据可视化图表</td><td>管理端</td></tr>
+    <tr><td>axios</td><td>管理端 HTTP 请求</td><td>管理端</td></tr>
+    <tr><td>腾讯位置服务 SDK</td><td>地图与定位功能</td><td>小程序 + 管理端</td></tr>
+  </tbody>
+</table>
+
+<div class="footer">
+  大学城外卖小程序开发指南 · 微信原生版 · 2025 &nbsp;·&nbsp; 本文档为技术开发参考，具体实现请结合各官方文档
+</div>
+
+</div>
+</body>
+</html>

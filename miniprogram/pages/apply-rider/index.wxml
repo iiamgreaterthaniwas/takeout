@@ -1,0 +1,39 @@
+<view class="container apply-container">
+  <view class="form-group card">
+    <view class="form-item">
+      <text class="label">真实姓名</text>
+      <input class="input" placeholder="请输入真实姓名" value="{{formData.realName}}" bindinput="onInputChange" data-field="realName" />
+    </view>
+    
+    <view class="form-item">
+      <text class="label">身份证号</text>
+      <input class="input" type="idcard" placeholder="请输入18位身份证号码" value="{{formData.idCard}}" bindinput="onInputChange" data-field="idCard" />
+    </view>
+
+    <view class="form-item">
+      <text class="label">交通工具</text>
+      <picker bindchange="bindVehicleChange" value="{{vehicleIndex}}" range="{{vehicles}}">
+        <view class="picker-view">
+          {{formData.vehicleType || '请选择您的交通工具'}}
+          <text class="arrow">></text>
+        </view>
+      </picker>
+    </view>
+  </view>
+
+  <view class="upload-group card">
+    <view class="upload-header">
+      <text class="label">手持身份证照</text>
+      <text class="desc">请上传手持身份证正面的清晰照片</text>
+    </view>
+    <view class="upload-box" bindtap="chooseImage">
+      <image wx:if="{{formData.idCardImg}}" src="{{formData.idCardImg}}" mode="aspectFit" class="preview-img"></image>
+      <view wx:else class="upload-placeholder">
+        <text class="add-icon">+</text>
+        <text>点击上传</text>
+      </view>
+    </view>
+  </view>
+
+  <button class="submit-btn" type="primary" bindtap="submitApply" loading="{{submitting}}">提交申请</button>
+</view>

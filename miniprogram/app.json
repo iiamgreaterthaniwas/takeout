@@ -1,0 +1,67 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/profile/index",
+    "pages/cart/index",
+    "pages/login/login",
+    "pages/shop/index",
+    "pages/order/list/index",
+    "pages/order/detail/index",
+    "pages/order/confirm/index",
+    "pages/order/review/index",
+    "pages/track/index",
+    "pages/address/list/index",
+    "pages/address/edit/index",
+    "pages/rider/map/index",
+    "pages/apply-merchant/index",
+    "pages/apply-rider/index",
+    "pages/merchant/dashboard/index",
+    "pages/merchant/products/index",
+    "pages/merchant/orders/index",
+    "pages/merchant/settings/index",
+    "pages/rider/dashboard/index",
+    "pages/admin/dashboard/index",
+    "pages/admin/review/index",
+    "pages/admin/users/index",
+    "pages/admin/orders/index",
+    "pages/admin/settings/index"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#ffffff",
+    "navigationBarTitleText": "大学城外卖系统",
+    "navigationBarTextStyle": "black"
+  },
+  "tabBar": {
+    "custom": true,
+    "color": "#7A7E83",
+    "selectedColor": "#3cc51f",
+    "borderStyle": "black",
+    "backgroundColor": "#ffffff",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页"
+      },
+      {
+        "pagePath": "pages/order/list/index",
+        "text": "订单"
+      },
+      {
+        "pagePath": "pages/profile/index",
+        "text": "我的"
+      }
+    ]
+  },
+  "sitemapLocation": "sitemap.json",
+  "permission": {
+    "scope.userLocation": {
+      "desc": "您的位置信息将用于获取附近商家和规划配送路线"
+    }
+  },
+  "requiredPrivateInfos": [
+    "getLocation",
+    "chooseLocation",
+    "chooseAddress"
+  ]
+}

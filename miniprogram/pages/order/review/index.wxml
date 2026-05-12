@@ -1,0 +1,17 @@
+<view class="container">
+  <view class="review-box">
+    <view class="title">为该订单打分</view>
+    <view class="stars">
+      <view class="star {{rating >= 1 ? 'active' : ''}}" bindtap="setRating" data-score="1">⭐</view>
+      <view class="star {{rating >= 2 ? 'active' : ''}}" bindtap="setRating" data-score="2">⭐</view>
+      <view class="star {{rating >= 3 ? 'active' : ''}}" bindtap="setRating" data-score="3">⭐</view>
+      <view class="star {{rating >= 4 ? 'active' : ''}}" bindtap="setRating" data-score="4">⭐</view>
+      <view class="star {{rating >= 5 ? 'active' : ''}}" bindtap="setRating" data-score="5">⭐</view>
+    </view>
+    <view class="rating-text">{{rating}} 分</view>
+    
+    <textarea class="review-input" placeholder="菜品口味如何，包装好吗？写下您的评价吧~" bindinput="onInput" value="{{content}}" maxlength="200"></textarea>
+    
+    <button class="submit-btn" type="primary" bindtap="submitReview">提交评价</button>
+  </view>
+</view>

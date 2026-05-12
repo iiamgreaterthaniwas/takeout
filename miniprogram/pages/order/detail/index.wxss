@@ -1,0 +1,177 @@
+.container {
+  padding: 20rpx;
+  background-color: #f8f8f8;
+  min-height: 100vh;
+}
+
+.card {
+  background-color: #fff;
+  border-radius: 16rpx;
+  padding: 30rpx;
+  margin-bottom: 20rpx;
+}
+
+/* 状态部分 */
+.status-section {
+  text-align: center;
+  padding: 40rpx 30rpx;
+}
+
+.status-title {
+  font-size: 40rpx;
+  font-weight: bold;
+  margin-bottom: 10rpx;
+}
+
+.status-desc {
+  font-size: 26rpx;
+  color: #999;
+  margin-bottom: 20rpx;
+}
+
+.status-actions {
+  margin-top: 20rpx;
+  display: flex;
+  justify-content: center;
+  gap: 20rpx;
+}
+
+.action-btn {
+  margin: 0;
+}
+
+/* 商户及商品部分 */
+.merchant-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 30rpx;
+  border-bottom: 1rpx solid #f5f5f5;
+  padding-bottom: 20rpx;
+}
+
+.merchant-logo {
+  width: 60rpx;
+  height: 60rpx;
+  border-radius: 8rpx;
+  margin-right: 20rpx;
+}
+
+.merchant-name {
+  font-size: 30rpx;
+  font-weight: bold;
+  flex: 1;
+}
+
+.contact-btn {
+  padding: 10rpx;
+}
+
+.goods-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20rpx;
+}
+
+.goods-img {
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 8rpx;
+  margin-right: 20rpx;
+  background-color: #f5f5f5;
+  flex-shrink: 0;
+}
+
+.goods-info {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.goods-name {
+  font-size: 28rpx;
+  color: #333;
+}
+
+.goods-count {
+  font-size: 24rpx;
+  color: #999;
+  margin-top: 4rpx;
+}
+
+.goods-price {
+  font-size: 28rpx;
+  color: #333;
+}
+
+.fee-section {
+  margin-top: 30rpx;
+  padding-top: 20rpx;
+  border-top: 1rpx solid #f5f5f5;
+}
+
+.fee-item {
+  display: flex;
+  justify-content: space-between;
+  font-size: 26rpx;
+  color: #666;
+  margin-bottom: 10rpx;
+}
+
+.total-section {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-top: 20rpx;
+  padding-top: 20rpx;
+  border-top: 1rpx solid #f5f5f5;
+}
+
+.total-label {
+  font-size: 26rpx;
+  color: #333;
+  margin-right: 10rpx;
+}
+
+.total-price {
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #ff5722;
+}
+
+/* 配送及订单信息 */
+.section-title {
+  font-size: 28rpx;
+  font-weight: bold;
+  margin-bottom: 20rpx;
+  padding-bottom: 10rpx;
+  border-bottom: 1rpx solid #f5f5f5;
+}
+
+.info-item {
+  display: flex;
+  margin-bottom: 16rpx;
+  font-size: 26rpx;
+}
+
+.info-label {
+  color: #999;
+  width: 140rpx;
+  flex-shrink: 0;
+}
+
+.info-content {
+  color: #333;
+  flex: 1;
+}
+
+.highlight {
+  color: var(--info-color);
+  font-weight: bold;
+}
+
+.eta {
+  color: var(--danger-color);
+  font-weight: bold;
+  font-size: 32rpx;
+}

@@ -1,0 +1,140 @@
+/**app.wxss**/
+page {
+  /* 统一主题色 - 外卖黄 */
+  --primary-color: #FFCC00;
+  --primary-color-light: #FFD633;
+  --primary-color-dark: #E6B800;
+  
+  /* 辅助色 */
+  --danger-color: #FF4D4F;
+  --success-color: #00B578;
+  --info-color: #1890FF;
+  
+  /* 基础颜色 */
+  --background-color: #F5F6F8;
+  --text-main: #333333;
+  --text-sub: #666666;
+  --text-muted: #999999;
+  --border-color: #EEEEEE;
+  --card-bg: #FFFFFF;
+  
+  background-color: var(--background-color);
+  font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica,
+    Segoe UI, Arial, Roboto, 'PingFang SC', 'miui', 'Hiragino Sans GB', 'Microsoft Yahei',
+    sans-serif;
+  font-size: 28rpx;
+  color: var(--text-main);
+}
+
+.container {
+  min-height: 100vh;
+  box-sizing: border-box;
+  padding-bottom: constant(safe-area-inset-bottom);
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+/* 统一的卡片样式 */
+.card {
+  background: var(--card-bg);
+  border-radius: 20rpx;
+  padding: 30rpx;
+  margin: 24rpx;
+  box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.04);
+}
+
+/* 统一按钮样式覆写 */
+button {
+  border-radius: 40rpx !important;
+  font-weight: 500 !important;
+}
+
+button[type="primary"] {
+  background-color: var(--primary-color) !important;
+  color: #333 !important;
+}
+
+button[type="primary"].button-hover {
+  background-color: var(--primary-color-dark) !important;
+}
+
+button[type="warn"] {
+  background-color: var(--danger-color) !important;
+  color: #fff !important;
+}
+
+button[type="default"] {
+  background-color: #F0F0F0 !important;
+  color: var(--text-main) !important;
+}
+
+/* 通用工具类 */
+.text-primary { color: var(--primary-color); }
+.text-danger { color: var(--danger-color); }
+.text-success { color: var(--success-color); }
+.text-sub { color: var(--text-sub); }
+.text-muted { color: var(--text-muted); }
+.font-bold { font-weight: bold; }
+
+.flex { display: flex; }
+.flex-col { display: flex; flex-direction: column; }
+.items-center { align-items: center; }
+.justify-between { justify-content: space-between; }
+.justify-center { justify-content: center; }
+.flex-1 { flex: 1; }
+.flex-shrink-0 { flex-shrink: 0; }
+
+/* 边距工具类 */
+.m-20 { margin: 20rpx; }
+.mt-10 { margin-top: 10rpx; }
+.mt-20 { margin-top: 20rpx; }
+.mb-20 { margin-bottom: 20rpx; }
+.p-30 { padding: 30rpx; }
+
+/* 统一步进器样式 */
+.stepper {
+  display: flex;
+  align-items: center;
+}
+.step-btn {
+  width: 48rpx;
+  height: 48rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-size: 32rpx;
+  box-shadow: 0 2rpx 6rpx rgba(0,0,0,0.05);
+}
+.step-minus {
+  border: 1rpx solid var(--border-color);
+  color: var(--text-sub);
+  background: var(--card-bg);
+}
+.step-plus {
+  background: var(--primary-color);
+  color: var(--text-main);
+  font-weight: bold;
+}
+.step-num {
+  width: 60rpx;
+  text-align: center;
+  font-size: 28rpx;
+  font-weight: 500;
+  color: var(--text-main);
+}
+.ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.ellipsis-2 {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+
+/* 阴影和圆角 */
+.shadow { box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.04); }
+.rounded-lg { border-radius: 20rpx; }
+.rounded-full { border-radius: 999rpx; }

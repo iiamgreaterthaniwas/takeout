@@ -1,0 +1,76 @@
+<view class="container confirm-container">
+  <!-- 配送地址模块 -->
+  <view class="address-section">
+    <view class="address-card" bindtap="chooseAddress">
+      <view class="addr-info" wx:if="{{address.detail}}">
+        <view class="addr-top">
+          <text class="addr-detail">{{address.name}}</text>
+          <text class="default-tag" wx:if="{{address.isDefault}}">默认</text>
+        </view>
+        <view class="addr-sub">{{address.detail}}</view>
+        <view class="addr-contact">{{contactName}} {{contactPhone}}</view>
+      </view>
+      <view class="addr-empty" wx:else>
+        <text>点击选择收货地址</text>
+      </view>
+      <view class="arrow">选择 ></view>
+    </view>
+
+    <!-- 联系人信息 -->
+    <view class="contact-card">
+      <view class="input-group">
+        <text class="input-label">联系人</text>
+        <input class="input-field" placeholder="收货人姓名" value="{{contactName}}" bindinput="onNameInput" />
+      </view>
+      <view class="input-group">
+        <text class="input-label">手机号</text>
+        <input class="input-field" type="number" placeholder="联系电话" value="{{contactPhone}}" bindinput="onPhoneInput" />
+      </view>
+    </view>
+  </view>
+
+  <!-- 订单明细模块（支持多店铺） -->
+  <view class="order-card" wx:for="{{carts}}" wx:key="shopId">
+    <view class="shop-name">{{item.shopName}}</view>
+    
+    <view class="goods-list">
+      <view class="goods-item" wx:for="{{item.items}}" wx:for-item="product" wx:key="id">
+        <image class="goods-img" src="{{product.imageUrl || '/images/default-product.png'}}" mode="aspectFill"></image>
+        <view class="goods-info">
+          <text class="goods-name">{{product.name}}</text>
+          <text class="goods-qty">x{{product.quantity}}</text>
+        </view>
+        <text class="goods-price">￥{{product.displayPrice}}</text>
+      </view>
+    </view>
+
+    <view class="fee-row">
+      <text>包装费</text>
+      <text>￥0</text>
+    </view>
+    <view class="fee-row">
+      <text>配送费</text>
+      <text>￥{{deliveryFee}}</text>
+    </view>
+    
+    <view class="total-row">
+      <text class="total-label">小计</text>
+      <text class="total-price">￥{{item.totalPrice}}</text>
+    </view>
+  </view>
+
+  <!-- 备注模块 -->
+  <view class="remark-card">
+    <text class="label">订单备注</text>
+    <input class="remark-input" placeholder="口味、偏好等要求" value="{{remark}}" bindinput="onRemarkInput" />
+  </view>
+
+  <!-- 底部结算栏 -->
+  <view class="submit-bar">
+    <view class="price-wrap">
+      <text class="price-label">合计：</text>
+      <text class="final-price">￥{{totalAmount}}</text>
+    </view>
+    <button class="pay-btn" bindtap="submitOrder" loading="{{submitting}}">去支付</button>
+  </view>
+</view>

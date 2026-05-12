@@ -1,0 +1,164 @@
+<view class="shop-container">
+  <!-- 头部：商家信息 -->
+  <view class="shop-header">
+    <view class="shop-header-bg"></view>
+    <view class="shop-header-content">
+      <image class="shop-logo" src="{{shopInfo.logo || '/images/default-shop.png'}}" mode="aspectFill"></image>
+      <view class="shop-info">
+        <view class="shop-name">{{shopInfo.shopName || '获取中...'}}</view>
+        <view class="shop-desc">公告：{{shopInfo.description || '欢迎光临，很高兴为您服务！'}}</view>
+        <view class="shop-meta">⭐ {{shopInfo.rating || 5.0}} | 月售 {{shopInfo.sales || 0}} | 起送 ￥{{shopInfo.minOrder || 0}}</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- Tabs 切换 -->
+  <view class="tabs">
+    <view class="tab {{activeTab === 0 ? 'active' : ''}}" bindtap="switchTab" data-index="0">下单</view>
+    <view class="tab {{activeTab === 1 ? 'active' : ''}}" bindtap="switchTab" data-index="1">评价</view>
+    <view class="tab {{activeTab === 2 ? 'active' : ''}}" bindtap="switchTab" data-index="2">商家</view>
+  </view>
+
+  <!-- Tab 0: 下单 -->
+  <view class="tab-content" wx:if="{{activeTab === 0}}">
+    <!-- 商品搜索 -->
+    <view class="search-box">
+      <text class="search-icon">🔍</text>
+      <input class="search-input" placeholder="搜索商品名称" bindinput="onSearchInput" value="{{searchKeyword}}" />
+    </view>
+
+    <!-- 中间：商品菜单区域 -->
+    <view class="menu-container">
+      <!-- 左侧分类 -->
+      <scroll-view class="menu-left" scroll-y>
+        <view class="menu-cat {{activeCategory === '全部商品' ? 'active' : ''}}" bindtap="switchCategory" data-category="全部商品">全部商品</view>
+        <view class="menu-cat {{activeCategory === item ? 'active' : ''}}" wx:for="{{categories}}" wx:key="*this" bindtap="switchCategory" data-category="{{item}}">{{item}}</view>
+      </scroll-view>
+      
+      <!-- 右侧商品列表 -->
+      <scroll-view class="menu-right" scroll-y>
+        <view class="category-title">{{activeCategory}}</view>
+        <view class="product-item" wx:for="{{displayedProducts}}" wx:key="id">
+          <image class="product-img" src="{{item.imageUrl || '/images/default-product.png'}}" mode="aspectFill"></image>
+          <view class="product-info">
+            <view class="product-name">{{item.name}}</view>
+            <view class="product-desc">{{item.description || '美味可口，值得一试'}}</view>
+            <view class="product-sales">月售 {{item.sales || 0}}</view>
+            <view class="product-bottom">
+              <view class="product-price"><text class="symbol">￥</text>{{item.price}}</view>
+              <view class="stepper">
+                <view class="step-btn step-minus" wx:if="{{item.quantity > 0}}" bindtap="decreaseCart" data-id="{{item.id}}">-</view>
+                <text class="step-num" wx:if="{{item.quantity > 0}}">{{item.quantity}}</text>
+                <view class="step-btn step-plus" bindtap="increaseCart" data-id="{{item.id}}">+</view>
+              </view>
+            </view>
+          </view>
+        </view>
+        <!-- 底部留白防止被购物车遮挡 -->
+        <view style="height: 140rpx;"></view>
+      </scroll-view>
+    </view>
+  </view>
+
+  <!-- Tab 1: 评价 -->
+  <view class="tab-content" wx:if="{{activeTab === 1}}">
+    <scroll-view scroll-y class="review-list">
+      <view class="empty" wx:if="{{reviews.length === 0}}">暂无评价</view>
+      <view class="review-item" wx:for="{{reviews}}" wx:key="id">
+        <view class="review-header">
+          <image class="avatar" src="{{item.user.avatar || '/images/default-avatar.png'}}" mode="aspectFill"></image>
+          <view class="user-info">
+            <text class="nickname">{{item.user.nickname || '匿名用户'}}</text>
+            <text class="time">{{item.createdAt}}</text>
+          </view>
+          <view class="rating">⭐ {{item.rating}}</view>
+        </view>
+        <view class="review-content">{{item.content || '该用户没有留下文字评价'}}</view>
+        <view class="review-order-items">
+          购买了：<text wx:for="{{item.order.items}}" wx:for-item="oItem" wx:key="id">{{oItem.productName}} </text>
+        </view>
+      </view>
+    </scroll-view>
+  </view>
+
+  <!-- Tab 2: 商家 -->
+  <view class="tab-content" wx:if="{{activeTab === 2}}">
+    <scroll-view scroll-y class="merchant-detail">
+      <view class="merchant-info-item" bindtap="openLocation">
+        <text class="icon">📍</text>
+        <view class="text">
+          <view class="title">门店地址</view>
+          <view class="desc">{{shopInfo.address}}</view>
+        </view>
+        <text class="arrow">></text>
+      </view>
+      
+      <view class="merchant-info-item" bindtap="callMerchant">
+        <text class="icon">📞</text>
+        <view class="text">
+          <view class="title">联系电话</view>
+          <view class="desc">{{shopInfo.phone || '暂无联系电话'}}</view>
+        </view>
+        <text class="arrow">></text>
+      </view>
+
+      <view class="merchant-info-item">
+        <text class="icon">🕒</text>
+        <view class="text">
+          <view class="title">营业状态</view>
+          <view class="desc">{{shopInfo.isOpen ? '营业中' : '休息中'}}</view>
+        </view>
+      </view>
+
+      <view class="merchant-license" wx:if="{{shopInfo.licenseImg}}">
+        <view class="title">营业资质</view>
+        <image src="{{shopInfo.licenseImg}}" mode="widthFix" class="license-img" bindtap="previewLicense"></image>
+      </view>
+    </scroll-view>
+  </view>
+
+  <!-- 底部购物车悬浮栏 (仅在下单 Tab 显示) -->
+  <view class="cart-bar" style="z-index: 1002;" wx:if="{{activeTab === 0}}">
+    <view class="cart-icon-wrap {{totalQuantity > 0 ? 'has-items' : ''}}" bindtap="toggleCartDetail">
+      <view class="cart-icon">🛒</view>
+      <view class="cart-badge" wx:if="{{totalQuantity > 0}}">{{totalQuantity}}</view>
+    </view>
+    <view class="cart-info" bindtap="toggleCartDetail">
+      <view class="cart-price" wx:if="{{totalPrice > 0}}"><text class="symbol">￥</text>{{totalPrice}}</view>
+      <view class="cart-empty" wx:else>未选购商品</view>
+      <view class="cart-delivery">另需配送费 ￥{{shopInfo.deliveryFee || 0}}</view>
+    </view>
+    <view class="cart-actions">
+      <view class="add-cart-btn {{totalQuantity > 0 ? 'active' : ''}}" bindtap="addToGlobalCart">加入购物车</view>
+      <view class="cart-btn {{totalQuantity > 0 && totalPrice >= (shopInfo.minOrder || 0) ? 'active' : ''}}" bindtap="goToConfirm">
+        {{totalQuantity > 0 && totalPrice >= (shopInfo.minOrder || 0) ? '去结算' : '￥' + (shopInfo.minOrder || 0) + '起送'}}
+      </view>
+    </view>
+  </view>
+
+  <!-- 购物车详情弹窗 -->
+  <view class="cart-mask" wx:if="{{showCartDetail && totalQuantity > 0}}" bindtap="toggleCartDetail"></view>
+  <view class="cart-detail" wx:if="{{showCartDetail && totalQuantity > 0}}">
+    <view class="cart-detail-header">
+      <text class="cart-detail-title">已选商品</text>
+      <view class="cart-detail-clear" bindtap="clearShopCart">
+        <text>🗑️ 清空</text>
+      </view>
+    </view>
+    <scroll-view scroll-y class="cart-detail-list">
+      <view class="cart-detail-item" wx:for="{{cart}}" wx:key="id">
+        <image class="item-img" src="{{item.imageUrl || '/images/default-product.png'}}" mode="aspectFill"></image>
+        <view class="item-info">
+          <view class="item-name">{{item.name}}</view>
+          <view class="item-desc">{{item.description || '美味可口'}}</view>
+          <view class="item-price">￥{{item.price * item.quantity}}</view>
+        </view>
+        <view class="stepper">
+          <view class="step-btn step-minus" bindtap="decreaseCart" data-id="{{item.id}}">-</view>
+          <text class="step-num">{{item.quantity}}</text>
+          <view class="step-btn step-plus" bindtap="increaseCart" data-id="{{item.id}}">+</view>
+        </view>
+      </view>
+    </scroll-view>
+  </view>
+</view>

@@ -1,0 +1,70 @@
+<view class="container">
+  <view class="form-group card">
+    <view class="form-item align-top border-none">
+      <text class="label">店铺Logo</text>
+      <view class="upload-area" bindtap="chooseLogoImage">
+        <image class="preview-img" src="{{logo || '/images/default-shop.png'}}" mode="aspectFit" wx:if="{{logo}}"></image>
+        <view class="upload-btn" wx:else>
+          <text class="upload-icon">+</text>
+          <text class="upload-text">上传Logo</text>
+        </view>
+      </view>
+    </view>
+    <view class="form-item">
+      <text class="label">店铺名称</text>
+      <input class="input" placeholder="请输入店铺名称" value="{{shopName}}" bindinput="onInput" data-field="shopName" />
+    </view>
+    <view class="form-item">
+      <text class="label">店铺分类</text>
+      <picker class="picker-box" bindchange="onCategoryChange" value="{{categoryIndex}}" range="{{categories}}">
+        <view class="picker-content">
+          <text class="picker-text {{category ? '' : 'placeholder'}}">{{category || '请选择店铺分类'}}</text>
+          <text class="arrow">></text>
+        </view>
+      </picker>
+    </view>
+    <view class="form-item">
+      <text class="label">联系电话</text>
+      <input class="input" type="number" placeholder="请输入联系电话" value="{{phone}}" bindinput="onInput" data-field="phone" />
+    </view>
+    <view class="form-item">
+      <text class="label">店铺地址</text>
+      <view class="address-picker" bindtap="chooseLocation">
+        <text class="address-text {{address ? '' : 'placeholder'}}">{{address || '点击选择店铺地址'}}</text>
+        <text class="arrow">></text>
+      </view>
+    </view>
+    <view class="form-item align-top">
+      <text class="label">店铺公告</text>
+      <textarea class="textarea" placeholder="请输入店铺简介或公告" value="{{description}}" bindinput="onInput" data-field="description"></textarea>
+    </view>
+  </view>
+
+  <view class="form-group card">
+    <view class="form-item">
+      <text class="label">起送金额(元)</text>
+      <input class="input" type="digit" placeholder="请输入起送价" value="{{minOrder}}" bindinput="onInput" data-field="minOrder" />
+    </view>
+    <view class="form-item">
+      <text class="label">配送费(元)</text>
+      <input class="input" type="digit" placeholder="请输入配送费" value="{{deliveryFee}}" bindinput="onInput" data-field="deliveryFee" />
+    </view>
+  </view>
+
+  <view class="form-group card">
+    <view class="form-item align-top border-none">
+      <text class="label">营业资质照</text>
+      <view class="upload-area" bindtap="chooseLicenseImage">
+        <image class="preview-img" src="{{licenseImg}}" mode="aspectFit" wx:if="{{licenseImg}}"></image>
+        <view class="upload-btn" wx:else>
+          <text class="upload-icon">+</text>
+          <text class="upload-text">上传照片</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="footer-fixed">
+    <button class="submit-btn" type="primary" bindtap="saveSettings">保存设置</button>
+  </view>
+</view>

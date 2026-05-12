@@ -1,0 +1,74 @@
+<view class="container home-container">
+  <!-- 顶部地址和搜索栏 -->
+  <view class="header-bar">
+    <view class="location" bindtap="chooseLocation">
+      <text class="icon">📍</text>
+      <text class="address">{{currentAddress}}</text>
+      <text class="arrow">></text>
+    </view>
+    <view class="search-box">
+      <text class="search-icon">🔍</text>
+      <input class="search-input" placeholder="搜索商家名称" bindconfirm="onSearch" confirm-type="search" />
+    </view>
+  </view>
+
+  <!-- 模拟分类导航金刚区 -->
+  <view class="category-grid">
+    <view class="cat-item" bindtap="onCategoryTap" data-category="快餐">
+      <view class="cat-icon bg-orange">🍔</view>
+      <text class="cat-text">快餐便当</text>
+    </view>
+    <view class="cat-item" bindtap="onCategoryTap" data-category="面食">
+      <view class="cat-icon bg-blue">🍜</view>
+      <text class="cat-text">面食粥点</text>
+    </view>
+    <view class="cat-item" bindtap="onCategoryTap" data-category="饮料">
+      <view class="cat-icon bg-yellow">🥤</view>
+      <text class="cat-text">奶茶饮品</text>
+    </view>
+    <view class="cat-item" bindtap="onCategoryTap" data-category="甜品">
+      <view class="cat-icon bg-pink">🍰</view>
+      <text class="cat-text">甜品烘焙</text>
+    </view>
+    <view class="cat-item" bindtap="onCategoryTap" data-category="">
+      <view class="cat-icon bg-green">🥗</view>
+      <text class="cat-text">全部商家</text>
+    </view>
+  </view>
+
+  <!-- 附近商家列表 -->
+  <view class="section-title">附近商家</view>
+  <scroll-view scroll-y class="shop-list">
+    <view class="shop-card {{!item.isOpen ? 'shop-closed' : ''}}" wx:for="{{shops}}" wx:key="id" bindtap="goToShop" data-id="{{item.id}}">
+      <view class="shop-logo-container">
+        <image class="shop-logo" src="{{item.logo || '/images/default-shop.png'}}" mode="aspectFill"></image>
+        <view class="closed-mask" wx:if="{{!item.isOpen}}">休息中</view>
+      </view>
+      <view class="shop-info">
+        <view class="shop-name-row">
+          <text class="shop-name">{{item.shopName}}</text>
+        </view>
+        <view class="shop-stats">
+          <text class="rating">⭐ {{item.rating}}</text>
+          <text class="sales">月售 {{item.sales}}</text>
+          <text class="distance">{{item.distance}}km</text>
+        </view>
+        <view class="shop-delivery">
+          <text>起送 ￥{{item.minOrder}}</text>
+          <text class="divider">|</text>
+          <text>配送费 ￥{{item.deliveryFee}}</text>
+        </view>
+        <view class="shop-tags">
+          <text class="tag">{{item.category || '品牌'}}</text>
+          <text class="tag outline">点评高分</text>
+        </view>
+      </view>
+    </view>
+  </scroll-view>
+
+  <!-- 悬浮全局购物车 -->
+  <view class="floating-cart" bindtap="goToGlobalCart">
+    <view class="cart-icon">🛒</view>
+    <view class="cart-badge" wx:if="{{totalCartQuantity > 0}}">{{totalCartQuantity}}</view>
+  </view>
+</view>

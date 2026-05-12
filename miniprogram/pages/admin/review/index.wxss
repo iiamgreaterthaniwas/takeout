@@ -1,0 +1,84 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background: #f5f5f5;
+}
+.tabs {
+  display: flex;
+  background: #fff;
+  border-bottom: 1rpx solid #eee;
+}
+.tab-item {
+  flex: 1;
+  text-align: center;
+  padding: 20rpx 0;
+  font-size: 30rpx;
+  color: #666;
+}
+.tab-item.active {
+  color: #000;
+  font-weight: bold;
+  border-bottom: 4rpx solid #000;
+}
+.list-container {
+  flex: 1;
+  padding: 20rpx;
+  box-sizing: border-box;
+}
+.empty {
+  text-align: center;
+  color: #999;
+  margin-top: 100rpx;
+}
+.card {
+  background: #fff;
+  border-radius: 12rpx;
+  padding: 20rpx;
+  margin-bottom: 20rpx;
+}
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1rpx solid #eee;
+  padding-bottom: 10rpx;
+  margin-bottom: 10rpx;
+}
+.app-id {
+  font-weight: bold;
+  color: #333;
+}
+.app-status {
+  font-size: 24rpx;
+}
+.app-status.pending { color: #ff8c00; }
+.app-status.approved { color: #3cc51f; }
+.app-status.rejected { color: #e64340; }
+.app-status.off { color: #999; }
+.app-info {
+  font-size: 28rpx;
+  color: #666;
+  line-height: 1.8;
+}
+.label {
+  color: #999;
+}
+.img-box {
+  display: flex;
+  align-items: center;
+  margin-top: 10rpx;
+}
+.thumb {
+  width: 100rpx;
+  height: 100rpx;
+  border-radius: 8rpx;
+  margin-left: 20rpx;
+}
+.app-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20rpx;
+}
+.app-actions button {
+  margin: 0 0 0 20rpx;
+}

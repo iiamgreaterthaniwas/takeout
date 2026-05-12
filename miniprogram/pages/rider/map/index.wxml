@@ -1,0 +1,50 @@
+<view class="container rider-map-container">
+  <view class="map-header">
+    <view class="back-btn" bindtap="goBack">
+      <text class="back-icon">←</text>
+    </view>
+    <view class="header-title">配送路线规划</view>
+    <view class="refresh-btn" bindtap="refreshData">🔄</view>
+  </view>
+
+  <map 
+    id="deliveryMap"
+    class="delivery-map"
+    latitude="{{latitude}}" 
+    longitude="{{longitude}}" 
+    scale="14"
+    markers="{{markers}}"
+    polyline="{{polyline}}"
+    show-location
+    bindmarkertap="onMarkerTap"
+  ></map>
+
+  <view class="map-panel card">
+    <view class="panel-header">
+      <text class="panel-title">配送任务 ({{activeOrders.length}})</text>
+    </view>
+    
+    <scroll-view scroll-y class="order-list">
+      <view class="task-item {{currentIndex === index ? 'active' : ''}}" wx:for="{{activeOrders}}" wx:key="id" data-index="{{index}}" bindtap="setCurrentTask">
+        <view class="task-number">{{index + 1}}</view>
+        <view class="task-info">
+          <view class="task-address">
+            <text class="task-label">送往：</text>
+            <text class="task-text">{{item.address}}</text>
+          </view>
+          <view class="task-meta">
+            <text class="task-distance">距: {{item.distanceDisplay}}</text>
+            <text class="task-time" wx:if="{{item.eta}}">预计: {{item.eta}}</text>
+          </view>
+        </view>
+        <view class="task-arrow">→</view>
+      </view>
+    </scroll-view>
+
+    <view class="panel-actions">
+      <button class="action-btn primary" bindtap="navigateToCurrent">
+        🧭 导航到 {{currentIndex + 1}} 号单
+      </button>
+    </view>
+  </view>
+</view>

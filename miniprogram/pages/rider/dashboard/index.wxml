@@ -1,0 +1,118 @@
+<view class="container rider-container">
+  <!-- 骑手状态头部 -->
+  <view class="rider-header card {{isOnline ? 'header-online' : 'header-offline'}}">
+    <view class="status-content">
+      <view class="status-main">
+        <text class="status-title">{{isOnline ? '正在接单' : '离线中'}}</text>
+        <view class="status-dot"></view>
+      </view>
+      <text class="status-desc">{{isOnline ? '系统将为您分配附近的订单' : '开启接单开关开始赚钱吧'}}</text>
+    </view>
+    <switch checked="{{isOnline}}" bindchange="toggleOnline" color="#FFFFFF"/>
+  </view>
+
+  <!-- 今日数据概览 -->
+  <view class="stats-grid">
+    <view class="stat-card card" bindtap="goToRiderMap" wx:if="{{activeOrders.length > 0}}">
+      <view class="map-indicator">
+        <text class="map-icon">🗺️</text>
+        <text class="map-label">查看路线 ({{activeOrders.length}})</text>
+      </view>
+    </view>
+    <view class="stat-card card">
+      <text class="stat-num">{{stats.orderCount || 0}}</text>
+      <text class="stat-label">今日完成(单)</text>
+    </view>
+    <view class="stat-card card">
+      <text class="stat-num">￥{{stats.income || '0.00'}}</text>
+      <text class="stat-label">今日预计收入</text>
+    </view>
+  </view>
+
+  <!-- 正在配送的订单 -->
+  <view class="section-header" wx:if="{{activeOrders.length > 0}}">
+    <view class="section-title">正在配送 ({{activeOrders.length}})</view>
+  </view>
+
+  <view class="order-list" wx:if="{{activeOrders.length > 0}}">
+    <view class="order-card card active-card" wx:for="{{activeOrders}}" wx:key="id">
+      <view class="order-header">
+        <view class="shop-box">
+          <text class="shop-icon">🏪</text>
+          <text class="shop-name">{{item.shopName}}</text>
+        </view>
+        <text class="order-status">配送中</text>
+      </view>
+      
+      <view class="order-body">
+        <view class="addr-line">
+          <view class="dot pick"></view>
+          <text class="addr-text">取货：{{item.merchant.address || '商家地址'}}</text>
+        </view>
+        <view class="addr-line">
+          <view class="dot deliver"></view>
+          <text class="addr-text">送往：{{item.address}}</text>
+        </view>
+      </view>
+
+      <view class="order-footer">
+        <view class="order-meta">
+          <text class="customer">收件人：{{item.customerName}}</text>
+          <text class="distance">距离：{{item.distanceDisplay}}</text>
+        </view>
+        <view class="btn-group-rider">
+          <button class="nav-btn-rider" bindtap="openRiderNavigation" data-id="{{item.id}}" data-lat="{{item.lat}}" data-lng="{{item.lng}}" data-name="{{item.address}}" data-shop-lat="{{item.merchant.lat}}" data-shop-lng="{{item.merchant.lng}}" data-shop-name="{{item.shopName}}">
+            🧭 导航
+          </button>
+          <button class="deliver-btn" bindtap="deliverOrder" data-id="{{item.id}}">确认送达</button>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 待接单列表 -->
+  <view class="section-header">
+    <view class="section-title">待抢订单</view>
+    <view class="refresh-btn" bindtap="fetchNearbyOrders" wx:if="{{isOnline}}">🔄 刷新</view>
+  </view>
+
+  <view class="order-list">
+    <block wx:if="{{isOnline && nearbyOrders.length > 0}}">
+      <view class="order-card card" wx:for="{{nearbyOrders}}" wx:key="id">
+        <view class="order-header">
+          <view class="shop-box">
+            <text class="shop-icon">🏪</text>
+            <text class="shop-name">{{item.shopName}}</text>
+          </view>
+          <text class="order-fee">￥{{item.fee}}</text>
+        </view>
+        
+        <view class="order-body">
+          <view class="addr-line">
+            <view class="dot pick"></view>
+            <text class="addr-text">取货：{{item.merchant.address || '商家地址'}}</text>
+          </view>
+          <view class="addr-line">
+            <view class="dot deliver"></view>
+            <text class="addr-text">送往：{{item.address}}</text>
+          </view>
+        </view>
+
+        <view class="order-footer">
+          <view class="order-meta">
+            <text class="distance">距离 {{item.distance}}km</text>
+            <text class="time">下单 10分钟前</text>
+          </view>
+          <button class="accept-btn" bindtap="acceptOrder" data-id="{{item.id}}">立即抢单</button>
+        </view>
+      </view>
+    </block>
+    
+    <!-- 缺省状态 -->
+    <view class="empty-state" wx:else>
+      <view class="empty-icon">{{isOnline ? '🔍' : '💤'}}</view>
+      <text class="empty-text">{{isOnline ? '附近暂时没有可抢订单' : '您目前处于离线状态'}}</text>
+      <text class="empty-sub" wx:if="{{isOnline}}">系统正在努力搜索中...</text>
+    </view>
+  </view>
+</view>

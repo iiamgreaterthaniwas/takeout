@@ -1,0 +1,22 @@
+<view class="container login-container">
+  <view class="header">
+    <text class="title">大学城外卖平台</text>
+    <text class="subtitle">请完善您的个人信息</text>
+  </view>
+  
+  <form bindsubmit="handleLogin" class="login-form">
+    <view class="form-item avatar-item">
+      <button class="avatar-btn" open-type="chooseAvatar" bindchooseavatar="onChooseAvatar">
+        <image class="avatar-img" src="{{avatarUrl || '/images/default-avatar.png'}}" mode="aspectFill"></image>
+      </button>
+      <text class="hint">点击选择头像</text>
+    </view>
+    
+    <view class="form-item nickname-item">
+      <text class="label">昵称</text>
+      <input type="nickname" name="nickname" class="nickname-input" placeholder="请输入或授权微信昵称" />
+    </view>
+
+    <button class="login-btn" type="primary" form-type="submit">确认并登录</button>
+  </form>
+</view>

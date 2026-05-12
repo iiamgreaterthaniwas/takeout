@@ -1,0 +1,99 @@
+.address-list-page {
+  padding: 24rpx;
+  padding-bottom: 160rpx;
+  min-height: 100vh;
+  background: var(--background-color);
+  box-sizing: border-box;
+}
+
+.address-card {
+  background: #fff;
+  border-radius: 20rpx;
+  padding: 28rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.04);
+}
+
+.line-top {
+  display: flex;
+  align-items: center;
+  gap: 14rpx;
+  margin-bottom: 12rpx;
+}
+
+.name {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: var(--text-main);
+}
+
+.phone {
+  font-size: 26rpx;
+  color: var(--text-sub);
+}
+
+.default-tag {
+  padding: 4rpx 12rpx;
+  border-radius: 999rpx;
+  background: rgba(255, 152, 0, 0.12);
+  color: #ff9800;
+  font-size: 20rpx;
+}
+
+.line-address {
+  font-size: 28rpx;
+  color: var(--text-main);
+  margin-bottom: 8rpx;
+}
+
+.line-detail {
+  font-size: 24rpx;
+  color: var(--text-sub);
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 24rpx;
+  margin-top: 24rpx;
+  padding-top: 20rpx;
+  border-top: 1rpx solid var(--border-color);
+}
+
+.action {
+  font-size: 24rpx;
+  color: var(--text-sub);
+}
+
+.action.default {
+  color: #ff9800;
+}
+
+.action.danger {
+  color: var(--danger-color);
+}
+
+.empty {
+  display: flex;
+  justify-content: center;
+  padding: 160rpx 0 100rpx;
+}
+
+.empty-text {
+  font-size: 28rpx;
+  color: var(--text-muted);
+}
+
+.add-btn {
+  position: fixed;
+  left: 24rpx;
+  right: 24rpx;
+  bottom: 24rpx;
+  height: 88rpx !important;
+  line-height: 88rpx !important;
+  border-radius: 44rpx !important;
+  background: var(--primary-color) !important;
+  color: var(--text-main) !important;
+  font-size: 30rpx !important;
+  font-weight: bold !important;
+}

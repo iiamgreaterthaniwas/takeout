@@ -1,0 +1,23 @@
+<view class="container">
+  <scroll-view scroll-y class="list-container">
+    <view class="empty" wx:if="{{users.length === 0}}">暂无用户</view>
+    <view class="card user-card" wx:for="{{users}}" wx:key="id">
+      <view class="user-header">
+        <image class="avatar" src="{{item.avatar || '/images/default-avatar.png'}}"></image>
+        <view class="user-info">
+          <text class="nickname">{{item.nickname || '微信用户'}} (ID: {{item.id}})</text>
+          <text class="role-tag">{{item.role}}</text>
+        </view>
+        <view class="status-tag {{item.status === 'active' ? 'active' : 'banned'}}">
+          {{item.status === 'active' ? '正常' : '封禁'}}
+        </view>
+      </view>
+      <view class="user-footer">
+        <text class="time">注册时间：{{item.createdAt}}</text>
+        <button size="mini" type="{{item.status === 'active' ? 'warn' : 'primary'}}" bindtap="toggleStatus" data-id="{{item.id}}" data-status="{{item.status}}">
+          {{item.status === 'active' ? '封禁' : '解封'}}
+        </button>
+      </view>
+    </view>
+  </scroll-view>
+</view>

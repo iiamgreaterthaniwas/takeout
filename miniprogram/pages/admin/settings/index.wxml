@@ -1,0 +1,17 @@
+<view class="container">
+  <view class="card">
+    <view class="form-group">
+      <view class="label">商品抽成比例 (%)</view>
+      <input type="digit" value="{{settings.productRate}}" bindinput="onInput" data-field="productRate" class="input" />
+      <view class="help-text">商户营业额中，平台抽取的百分比</view>
+    </view>
+    
+    <view class="form-group">
+      <view class="label">运费抽成比例 (%)</view>
+      <input type="digit" value="{{settings.deliveryRate}}" bindinput="onInput" data-field="deliveryRate" class="input" />
+      <view class="help-text">骑手配送费中，平台抽取的百分比</view>
+    </view>
+
+    <button type="primary" bindtap="saveSettings" class="submit-btn">保存设置</button>
+  </view>
+</view>

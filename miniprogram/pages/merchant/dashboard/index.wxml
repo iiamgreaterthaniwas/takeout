@@ -1,0 +1,65 @@
+<view class="container merchant-container">
+  <!-- 商家信息头部 -->
+  <view class="merchant-header card">
+    <image class="shop-logo" src="{{shopInfo.logo || '/images/default-shop.png'}}" mode="aspectFill"></image>
+    <view class="shop-content">
+      <view class="shop-top">
+        <text class="shop-name">{{shopInfo.shopName || '我的店铺'}}</text>
+        <view class="status-tag {{isOpen ? 'tag-open' : 'tag-closed'}}">
+          {{isOpen ? '正在营业' : '暂停营业'}}
+        </view>
+      </view>
+      <view class="shop-bottom">
+        <text class="shop-id">ID: {{shopInfo.id}}</text>
+        <view class="switch-wrap">
+          <text class="switch-label">接单开关</text>
+          <switch checked="{{isOpen}}" bindchange="toggleOpen" color="var(--primary-color)"/>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 今日数据概览 -->
+  <view class="section-title">今日概况</view>
+  <view class="stats-grid">
+    <view class="stat-card card">
+      <view class="stat-icon income-bg">💰</view>
+      <view class="stat-info">
+        <text class="stat-label">今日营收</text>
+        <text class="stat-num">￥{{stats.income || '0.00'}}</text>
+      </view>
+    </view>
+    <view class="stat-card card">
+      <view class="stat-icon order-bg">📋</view>
+      <view class="stat-info">
+        <text class="stat-label">今日订单</text>
+        <text class="stat-num">{{stats.orderCount || 0}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 功能菜单网格 -->
+  <view class="section-title">管理功能</view>
+  <view class="function-grid">
+    <view class="func-item card" bindtap="goToOrders">
+      <view class="func-icon">📦</view>
+      <text class="func-name">订单管理</text>
+      <text class="func-desc">查看并处理订单</text>
+    </view>
+    <view class="func-item card" bindtap="goToProducts">
+      <view class="func-icon">🍔</view>
+      <text class="func-name">商品管理</text>
+      <text class="func-desc">上下架及库存</text>
+    </view>
+    <view class="func-item card" bindtap="goToShopSettings">
+      <view class="func-icon">⚙️</view>
+      <text class="func-name">店铺设置</text>
+      <text class="func-desc">基本信息修改</text>
+    </view>
+    <view class="func-item card">
+      <view class="func-icon">📊</view>
+      <text class="func-name">经营分析</text>
+      <text class="func-desc">数据报表统计</text>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,46 @@
+<view class="container profile-container">
+  <view class="user-info card" wx:if="{{userInfo}}">
+    <image class="avatar" src="{{userInfo.avatar || '/images/default-avatar.png'}}"></image>
+    <view class="info">
+      <text class="nickname">{{userInfo.nickname || '微信用户'}}</text>
+      <text class="role">角色: {{userInfo.roleText || '普通用户'}}</text>
+    </view>
+  </view>
+
+  <view class="menu-list card" wx:if="{{userInfo}}">
+    <view class="menu-item" bindtap="goToAddressList">
+      <text>收货地址</text>
+      <text class="arrow">></text>
+    </view>
+
+    <!-- 骑手相关 -->
+    <view class="menu-item" wx:if="{{userInfo.role === 'rider' || userInfo.role === 'both' || userInfo.role === 'admin'}}" bindtap="goToRiderDash">
+      <text>骑手工作台</text>
+      <text class="arrow">></text>
+    </view>
+    <view class="menu-item" wx:else bindtap="goToApplyRider">
+      <text>申请成为骑手</text>
+      <text class="arrow">></text>
+    </view>
+
+    <!-- 商户相关 -->
+    <view class="menu-item" wx:if="{{userInfo.role === 'merchant' || userInfo.role === 'both' || userInfo.role === 'admin'}}" bindtap="goToMerchantDash">
+      <text>商家管理后台</text>
+      <text class="arrow">></text>
+    </view>
+    <view class="menu-item" wx:else bindtap="goToApplyMerchant">
+      <text>申请成为商户</text>
+      <text class="arrow">></text>
+    </view>
+
+    <!-- 管理员入口 -->
+    <view class="menu-item" bindtap="goToAdminDash" wx:if="{{userInfo.role === 'admin'}}">
+      <text>管理员控制台</text>
+      <text class="arrow">></text>
+    </view>
+
+    <view class="menu-item" bindtap="logout">
+      <text class="logout-text">退出登录</text>
+    </view>
+  </view>
+</view>

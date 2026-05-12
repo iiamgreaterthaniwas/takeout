@@ -1,0 +1,62 @@
+.track-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background-color: var(--background-color);
+}
+
+.map {
+  flex: 1;
+  width: 100%;
+}
+
+.track-info {
+  height: 240rpx;
+  margin: 20rpx;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.status-title {
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 20rpx;
+  text-align: center;
+  border-bottom: 1rpx solid #eee;
+  padding-bottom: 20rpx;
+}
+
+.rider-info {
+  display: flex;
+  align-items: center;
+  padding: 0 40rpx;
+}
+
+.rider-avatar {
+  font-size: 60rpx;
+  margin-right: 30rpx;
+  background: #f0f0f0;
+  width: 100rpx;
+  height: 100rpx;
+  line-height: 100rpx;
+  text-align: center;
+  border-radius: 50%;
+}
+
+.rider-detail {
+  display: flex;
+  flex-direction: column;
+}
+
+.rider-name {
+  font-size: 32rpx;
+  font-weight: bold;
+}
+
+.rider-distance {
+  font-size: 26rpx;
+  color: #ff5722;
+  margin-top: 10rpx;
+}

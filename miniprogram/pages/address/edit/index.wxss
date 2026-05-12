@@ -1,0 +1,60 @@
+.address-edit-page {
+  padding: 24rpx;
+  min-height: 100vh;
+  background: var(--background-color);
+  box-sizing: border-box;
+}
+
+.form-card {
+  background: #fff;
+  border-radius: 20rpx;
+  padding: 0 28rpx;
+  box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.04);
+}
+
+.form-item {
+  display: flex;
+  align-items: center;
+  min-height: 100rpx;
+  border-bottom: 1rpx solid var(--border-color);
+}
+
+.form-item:last-child {
+  border-bottom: none;
+}
+
+.label {
+  width: 160rpx;
+  font-size: 28rpx;
+  color: var(--text-main);
+}
+
+.input,
+.picker-text {
+  flex: 1;
+  font-size: 28rpx;
+  color: var(--text-main);
+}
+
+.placeholder {
+  color: var(--text-muted);
+}
+
+.picker {
+  justify-content: space-between;
+}
+
+.switch-item {
+  justify-content: space-between;
+}
+
+.submit-btn {
+  margin-top: 40rpx;
+  height: 88rpx !important;
+  line-height: 88rpx !important;
+  border-radius: 44rpx !important;
+  background: var(--primary-color) !important;
+  color: var(--text-main) !important;
+  font-size: 30rpx !important;
+  font-weight: bold !important;
+}

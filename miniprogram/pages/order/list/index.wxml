@@ -1,0 +1,34 @@
+<view class="container">
+  <view class="empty" wx:if="{{orders.length === 0}}">
+    <text>暂无订单</text>
+  </view>
+  
+  <view class="order-list" wx:else>
+    <view class="order-card" wx:for="{{orders}}" wx:key="id">
+      <view class="order-main" bindtap="goToDetail" data-id="{{item.id}}">
+        <image class="shop-logo" src="{{item.displayImage || '/images/default-shop.png'}}" mode="aspectFill"></image>
+        <view class="order-info">
+          <view class="order-header">
+            <text class="shop-name">{{item.shopName}}</text>
+            <text class="status">{{item.statusText}}</text>
+          </view>
+          <view class="order-content">
+            <text class="goods">{{item.goodsDesc}}</text>
+            <text class="price">￥{{item.totalPrice}}</text>
+          </view>
+        </view>
+      </view>
+      <view class="order-footer">
+        <view class="action-btn" wx:if="{{item.status === 'pending_payment'}}">
+          <button type="primary" bindtap="payOrder" data-id="{{item.id}}">立即支付</button>
+        </view>
+        <view class="action-btn" wx:if="{{item.status === 'delivered' || (item.status === 'completed' && !item.review)}}">
+          <button type="default" bindtap="goToReview" data-id="{{item.id}}">评价晒单</button>
+        </view>
+        <view class="action-btn">
+          <button type="default" bindtap="goToDetail" data-id="{{item.id}}">订单详情</button>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

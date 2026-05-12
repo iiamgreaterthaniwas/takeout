@@ -1,0 +1,197 @@
+import { PrismaService } from '../prisma/prisma.service';
+export declare class RidersService {
+    private prisma;
+    constructor(prisma: PrismaService);
+    getMyProfile(userId: number): Promise<{
+        user: {
+            nickname: string | null;
+            avatar: string | null;
+        };
+    } & {
+        id: number;
+        userId: number;
+        realName: string;
+        isOnline: boolean;
+        currentLat: number | null;
+        currentLng: number | null;
+        rating: number;
+        totalOrders: number;
+        createdAt: Date;
+        updatedAt: Date;
+    }>;
+    getMyActiveOrders(userId: number): Promise<{
+        distanceToUser: number | null;
+        user: {
+            id: number;
+            openid: string;
+            nickname: string | null;
+            avatar: string | null;
+            phone: string | null;
+            role: import(".prisma/client").$Enums.Role;
+            status: string;
+            createdAt: Date;
+            updatedAt: Date;
+        };
+        merchant: {
+            id: number;
+            userId: number;
+            shopName: string;
+            description: string | null;
+            logo: string | null;
+            address: string;
+            lat: number;
+            lng: number;
+            isOpen: boolean;
+            minOrder: import("@prisma/client/runtime/library").Decimal;
+            deliveryFee: import("@prisma/client/runtime/library").Decimal;
+            category: string | null;
+            phone: string | null;
+            licenseImg: string | null;
+            rating: number;
+            sales: number;
+            createdAt: Date;
+            updatedAt: Date;
+        };
+        id: number;
+        userId: number;
+        merchantId: number;
+        riderId: number | null;
+        totalAmount: import("@prisma/client/runtime/library").Decimal;
+        deliveryFee: import("@prisma/client/runtime/library").Decimal;
+        status: import(".prisma/client").$Enums.OrderStatus;
+        address: string;
+        addressDetail: string;
+        lat: number | null;
+        lng: number | null;
+        estimatedArrival: Date | null;
+        remark: string | null;
+        createdAt: Date;
+        updatedAt: Date;
+    }[]>;
+    toggleOnline(userId: number, isOnline: boolean): Promise<{
+        id: number;
+        userId: number;
+        realName: string;
+        isOnline: boolean;
+        currentLat: number | null;
+        currentLng: number | null;
+        rating: number;
+        totalOrders: number;
+        createdAt: Date;
+        updatedAt: Date;
+    }>;
+    getNearbyOrders(userId: number, lat: number, lng: number): Promise<({
+        merchant: {
+            id: number;
+            userId: number;
+            shopName: string;
+            description: string | null;
+            logo: string | null;
+            address: string;
+            lat: number;
+            lng: number;
+            isOpen: boolean;
+            minOrder: import("@prisma/client/runtime/library").Decimal;
+            deliveryFee: import("@prisma/client/runtime/library").Decimal;
+            category: string | null;
+            phone: string | null;
+            licenseImg: string | null;
+            rating: number;
+            sales: number;
+            createdAt: Date;
+            updatedAt: Date;
+        };
+    } & {
+        id: number;
+        userId: number;
+        merchantId: number;
+        riderId: number | null;
+        totalAmount: import("@prisma/client/runtime/library").Decimal;
+        deliveryFee: import("@prisma/client/runtime/library").Decimal;
+        status: import(".prisma/client").$Enums.OrderStatus;
+        address: string;
+        addressDetail: string;
+        lat: number | null;
+        lng: number | null;
+        estimatedArrival: Date | null;
+        remark: string | null;
+        createdAt: Date;
+        updatedAt: Date;
+    })[]>;
+    acceptOrder(userId: number, orderId: number): Promise<{
+        id: number;
+        userId: number;
+        merchantId: number;
+        riderId: number | null;
+        totalAmount: import("@prisma/client/runtime/library").Decimal;
+        deliveryFee: import("@prisma/client/runtime/library").Decimal;
+        status: import(".prisma/client").$Enums.OrderStatus;
+        address: string;
+        addressDetail: string;
+        lat: number | null;
+        lng: number | null;
+        estimatedArrival: Date | null;
+        remark: string | null;
+        createdAt: Date;
+        updatedAt: Date;
+    }>;
+    deliverOrder(userId: number, orderId: number): Promise<{
+        id: number;
+        userId: number;
+        merchantId: number;
+        riderId: number | null;
+        totalAmount: import("@prisma/client/runtime/library").Decimal;
+        deliveryFee: import("@prisma/client/runtime/library").Decimal;
+        status: import(".prisma/client").$Enums.OrderStatus;
+        address: string;
+        addressDetail: string;
+        lat: number | null;
+        lng: number | null;
+        estimatedArrival: Date | null;
+        remark: string | null;
+        createdAt: Date;
+        updatedAt: Date;
+    }>;
+    getMyHistory(userId: number): Promise<({
+        merchant: {
+            id: number;
+            userId: number;
+            shopName: string;
+            description: string | null;
+            logo: string | null;
+            address: string;
+            lat: number;
+            lng: number;
+            isOpen: boolean;
+            minOrder: import("@prisma/client/runtime/library").Decimal;
+            deliveryFee: import("@prisma/client/runtime/library").Decimal;
+            category: string | null;
+            phone: string | null;
+            licenseImg: string | null;
+            rating: number;
+            sales: number;
+            createdAt: Date;
+            updatedAt: Date;
+        };
+    } & {
+        id: number;
+        userId: number;
+        merchantId: number;
+        riderId: number | null;
+        totalAmount: import("@prisma/client/runtime/library").Decimal;
+        deliveryFee: import("@prisma/client/runtime/library").Decimal;
+        status: import(".prisma/client").$Enums.OrderStatus;
+        address: string;
+        addressDetail: string;
+        lat: number | null;
+        lng: number | null;
+        estimatedArrival: Date | null;
+        remark: string | null;
+        createdAt: Date;
+        updatedAt: Date;
+    })[]>;
+    getTodayStats(userId: number): Promise<{
+        orderCount: number;
+        income: number;
+    }>;
+}

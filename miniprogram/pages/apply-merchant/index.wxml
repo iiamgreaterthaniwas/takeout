@@ -1,0 +1,34 @@
+<view class="container apply-container">
+  <view class="form-group card">
+    <view class="form-item">
+      <text class="label">店铺名称</text>
+      <input class="input" placeholder="请输入店铺名称" value="{{formData.shopName}}" bindinput="onInputChange" data-field="shopName" />
+    </view>
+    
+    <view class="form-item">
+      <text class="label">联系电话</text>
+      <input class="input" type="number" placeholder="请输入手机号码" value="{{formData.contactPhone}}" bindinput="onInputChange" data-field="contactPhone" />
+    </view>
+
+    <view class="form-item">
+      <text class="label">店铺地址</text>
+      <input class="input" placeholder="请输入详细地址" value="{{formData.address}}" bindinput="onInputChange" data-field="address" />
+    </view>
+  </view>
+
+  <view class="upload-group card">
+    <view class="upload-header">
+      <text class="label">营业执照</text>
+      <text class="desc">请上传清晰的营业执照原件照片</text>
+    </view>
+    <view class="upload-box" bindtap="chooseImage">
+      <image wx:if="{{formData.licenseImg}}" src="{{formData.licenseImg}}" mode="aspectFit" class="preview-img"></image>
+      <view wx:else class="upload-placeholder">
+        <text class="add-icon">+</text>
+        <text>点击上传</text>
+      </view>
+    </view>
+  </view>
+
+  <button class="submit-btn" type="primary" bindtap="submitApply" loading="{{submitting}}">提交申请</button>
+</view>

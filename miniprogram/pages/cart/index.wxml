@@ -1,0 +1,55 @@
+<view class="cart-page">
+  <view class="empty-cart" wx:if="{{carts.length === 0}}">
+    <image class="empty-img" src="/images/default-shop.png" mode="aspectFit"></image>
+    <view class="empty-text">购物车空空如也，快去逛逛吧</view>
+    <button class="go-shop-btn" bindtap="goHome">去逛逛</button>
+  </view>
+
+  <view class="cart-list" wx:else>
+    <view class="shop-cart" wx:for="{{carts}}" wx:key="shopId">
+      <view class="shop-header">
+        <view class="shop-info-wrap" bindtap="goToShop" data-id="{{item.shopId}}">
+          <image class="shop-logo" src="{{item.shopLogo || '/images/default-shop.png'}}" mode="aspectFill"></image>
+          <text class="shop-name">{{item.shopName}}</text>
+          <text class="arrow">></text>
+        </view>
+        <view class="clear-cart" catchtap="clearShopCart" data-id="{{item.shopId}}">清空</view>
+      </view>
+      <view class="item-list">
+        <view class="cart-item" wx:for="{{item.items}}" wx:for-item="product" wx:key="id">
+          <image class="product-img" src="{{product.imageUrl || '/images/default-product.png'}}" mode="aspectFill"></image>
+          <view class="product-info">
+            <view class="product-name">{{product.name}}</view>
+            <view class="product-price">￥{{product.price}}</view>
+          </view>
+          <view class="stepper">
+            <view class="step-btn step-minus" catchtap="updateQuantity" data-shop-id="{{item.shopId}}" data-product-id="{{product.id}}" data-delta="-1">-</view>
+            <view class="step-num">{{product.quantity}}</view>
+            <view class="step-btn step-plus" catchtap="updateQuantity" data-shop-id="{{item.shopId}}" data-product-id="{{product.id}}" data-delta="1">+</view>
+          </view>
+        </view>
+      </view>
+      <view class="shop-footer">
+        <view class="total">
+          小计：<text class="highlight price">￥{{item.totalPrice}}</text>
+        </view>
+        <view class="min-order-tip {{item.totalPrice >= (item.minOrder || 0) ? 'meet' : 'unmeet'}}">
+          {{item.totalPrice >= (item.minOrder || 0) ? '已达起送价' : '差￥' + (item.minOrder - item.totalPrice) + '起送'}}
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 全局结算栏 -->
+  <view class="global-checkout-bar" wx:if="{{carts.length > 0}}">
+    <view class="checkout-info">
+      <view class="total-price-wrap">
+        <text class="total-label">合计:</text>
+        <text class="total-price">￥{{totalAmount}}</text>
+      </view>
+    </view>
+    <button class="checkout-btn {{canCheckout ? '' : 'disabled'}}" bindtap="checkoutAll">
+      去结算({{totalQuantity}})
+    </button>
+  </view>
+</view>

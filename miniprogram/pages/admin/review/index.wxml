@@ -1,0 +1,84 @@
+<view class="container">
+  <view class="tabs">
+    <view class="tab-item {{activeTab === 0 ? 'active' : ''}}" bindtap="switchTab" data-index="{{0}}">商户</view>
+    <view class="tab-item {{activeTab === 1 ? 'active' : ''}}" bindtap="switchTab" data-index="{{1}}">骑手</view>
+    <view class="tab-item {{activeTab === 2 ? 'active' : ''}}" bindtap="switchTab" data-index="{{2}}">商品</view>
+  </view>
+
+  <scroll-view scroll-y class="list-container">
+    <!-- 商户申请列表 -->
+    <block wx:if="{{activeTab === 0}}">
+      <view class="empty" wx:if="{{merchantApps.length === 0}}">暂无记录</view>
+      <view class="card app-card" wx:for="{{merchantApps}}" wx:key="id">
+        <view class="app-header">
+          <text class="app-id">ID: {{item.id}}</text>
+          <text class="app-status {{item.status}}">{{item.status === 'pending' ? '待审核' : (item.status === 'approved' ? '已通过' : '已拒绝')}}</text>
+        </view>
+        <view class="app-info">
+          <view><text class="label">申请人：</text>{{item.user.nickname}}</view>
+          <view><text class="label">店铺名：</text>{{item.shopName}}</view>
+          <view><text class="label">电话：</text>{{item.contactPhone}}</view>
+          <view><text class="label">地址：</text>{{item.address}}</view>
+          <view class="img-box" bindtap="previewImg" data-url="{{item.licenseImg}}">
+            <text class="label">营业执照：</text>
+            <image src="{{item.licenseImg}}" mode="aspectFit" class="thumb"></image>
+          </view>
+        </view>
+        <view class="app-actions">
+          <button size="mini" type="primary" wx:if="{{item.status === 'pending'}}" bindtap="handleReview" data-type="merchant" data-id="{{item.id}}" data-status="approved">通过</button>
+          <button size="mini" type="warn" wx:if="{{item.status === 'pending'}}" bindtap="handleReview" data-type="merchant" data-id="{{item.id}}" data-status="rejected">拒绝</button>
+          <button size="mini" type="default" wx:if="{{item.status === 'approved'}}" bindtap="handleReview" data-type="merchant" data-id="{{item.id}}" data-status="rejected">下架</button>
+        </view>
+      </view>
+    </block>
+
+    <!-- 骑手申请列表 -->
+    <block wx:if="{{activeTab === 1}}">
+      <view class="empty" wx:if="{{riderApps.length === 0}}">暂无记录</view>
+      <view class="card app-card" wx:for="{{riderApps}}" wx:key="id">
+        <view class="app-header">
+          <text class="app-id">ID: {{item.id}}</text>
+          <text class="app-status {{item.status}}">{{item.status === 'pending' ? '待审核' : (item.status === 'approved' ? '已通过' : '已拒绝')}}</text>
+        </view>
+        <view class="app-info">
+          <view><text class="label">真实姓名：</text>{{item.realName}}</view>
+          <view><text class="label">身份证号：</text>{{item.idCard}}</view>
+          <view><text class="label">交通工具：</text>{{item.vehicleType}}</view>
+          <view class="img-box" bindtap="previewImg" data-url="{{item.idCardImg}}">
+            <text class="label">证件照：</text>
+            <image src="{{item.idCardImg}}" mode="aspectFit" class="thumb"></image>
+          </view>
+        </view>
+        <view class="app-actions">
+          <button size="mini" type="primary" wx:if="{{item.status === 'pending'}}" bindtap="handleReview" data-type="rider" data-id="{{item.id}}" data-status="approved">通过</button>
+          <button size="mini" type="warn" wx:if="{{item.status === 'pending'}}" bindtap="handleReview" data-type="rider" data-id="{{item.id}}" data-status="rejected">拒绝</button>
+          <button size="mini" type="default" wx:if="{{item.status === 'approved'}}" bindtap="handleReview" data-type="rider" data-id="{{item.id}}" data-status="rejected">下架</button>
+        </view>
+      </view>
+    </block>
+
+    <!-- 商品审核列表 -->
+    <block wx:if="{{activeTab === 2}}">
+      <view class="empty" wx:if="{{products.length === 0}}">暂无记录</view>
+      <view class="card app-card" wx:for="{{products}}" wx:key="id">
+        <view class="app-header">
+          <text class="app-id">商户ID: {{item.merchantId}} - {{item.name}}</text>
+          <text class="app-status {{item.status}}">{{item.status === 'pending' ? '待审核' : (item.status === 'approved' ? '已上架' : (item.status === 'off' ? '已下架' : '已拒绝'))}}</text>
+        </view>
+        <view class="app-info">
+          <view><text class="label">价格：</text>￥{{item.price}}</view>
+          <view><text class="label">库存：</text>{{item.stock}}</view>
+          <view class="img-box" bindtap="previewImg" data-url="{{item.imageUrl}}">
+            <text class="label">商品图：</text>
+            <image src="{{item.imageUrl}}" mode="aspectFit" class="thumb"></image>
+          </view>
+        </view>
+        <view class="app-actions">
+          <button size="mini" type="primary" wx:if="{{item.status === 'pending'}}" bindtap="handleReview" data-type="product" data-id="{{item.id}}" data-status="approved">通过</button>
+          <button size="mini" type="warn" wx:if="{{item.status === 'pending'}}" bindtap="handleReview" data-type="product" data-id="{{item.id}}" data-status="rejected">拒绝</button>
+          <button size="mini" type="default" wx:if="{{item.status === 'approved'}}" bindtap="handleReview" data-type="product" data-id="{{item.id}}" data-status="off">强制下架</button>
+        </view>
+      </view>
+    </block>
+  </scroll-view>
+</view>

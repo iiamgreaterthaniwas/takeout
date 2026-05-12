@@ -1,0 +1,103 @@
+<view class="container product-container">
+  <view class="header-action">
+    <view class="search-bar">
+      <text class="search-icon">🔍</text>
+      <input placeholder="搜索商品名称" bindinput="onSearch" />
+    </view>
+    <button class="add-btn" bindtap="showAddModal">+ 添加商品</button>
+  </view>
+
+  <scroll-view scroll-y class="product-list">
+    <view class="empty-box" wx:if="{{products.length === 0}}">
+      <view class="empty-icon">🥣</view>
+      <text>店里还没有商品哦</text>
+    </view>
+
+    <view class="product-card card" wx:for="{{products}}" wx:key="id">
+      <image class="product-img" src="{{item.imageUrl || '/images/default-product.png'}}" mode="aspectFill"></image>
+      <view class="product-info">
+        <view class="info-top">
+          <text class="name">{{item.name}}</text>
+          <text class="category-tag">{{item.category || '未分类'}}</text>
+        </view>
+        <text class="desc">{{item.description || '暂无描述'}}</text>
+        
+        <view class="meta-row">
+          <view class="price-box">
+            <text class="unit">￥</text>
+            <text class="price">{{item.price}}</text>
+          </view>
+          <text class="stock">库存 {{item.stock}}</text>
+        </view>
+
+        <view class="action-row">
+          <view class="status-box">
+            <view class="status-dot dot-{{item.status}}"></view>
+            <text class="status-text">{{statusMap[item.status]}}</text>
+          </view>
+          <view class="btn-group">
+            <button class="btn-edit" size="mini" bindtap="showEditModal" data-id="{{item.id}}">编辑</button>
+            <button class="btn-del" size="mini" bindtap="deleteProduct" data-id="{{item.id}}">删除</button>
+          </view>
+        </view>
+      </view>
+    </view>
+  </scroll-view>
+
+  <!-- 添加/编辑商品弹窗 -->
+  <view class="modal-mask" wx:if="{{showModal}}" bindtap="hideAddModal">
+    <view class="modal-content" catchtap="stopBubble">
+      <view class="modal-header">
+        <text>{{editingId ? '编辑商品' : '添加新商品'}}</text>
+        <text class="close-icon" bindtap="hideAddModal">×</text>
+      </view>
+      
+      <scroll-view scroll-y class="modal-body">
+        <view class="form-item">
+          <text class="label">商品名称</text>
+          <input class="input" placeholder="请输入商品名称" value="{{formData.name}}" bindinput="onInputChange" data-field="name" />
+        </view>
+        
+        <view class="form-row">
+          <view class="form-item half">
+            <text class="label">价格 (元)</text>
+            <input class="input" type="digit" placeholder="0.00" value="{{formData.price}}" bindinput="onInputChange" data-field="price" />
+          </view>
+          <view class="form-item half">
+            <text class="label">库存数量</text>
+            <input class="input" type="number" placeholder="999" value="{{formData.stock}}" bindinput="onInputChange" data-field="stock" />
+          </view>
+        </view>
+
+        <view class="form-item">
+          <text class="label">商品分类</text>
+          <input class="input" placeholder="如：主食、冷饮" value="{{formData.category}}" bindinput="onInputChange" data-field="category" />
+        </view>
+
+        <view class="form-item">
+          <text class="label">商品描述</text>
+          <textarea class="textarea" placeholder="简单介绍一下商品吧" value="{{formData.description}}" bindinput="onInputChange" data-field="description" />
+        </view>
+
+        <view class="form-item">
+          <text class="label">商品图片</text>
+          <view class="upload-box" bindtap="chooseImage">
+            <block wx:if="{{formData.imageUrl}}">
+              <image src="{{formData.imageUrl}}" mode="aspectFill" class="upload-preview"></image>
+              <view class="upload-mask">更换图片</view>
+            </block>
+            <view class="upload-placeholder" wx:else>
+              <text class="plus">+</text>
+              <text class="tip">上传图片</text>
+            </view>
+          </view>
+        </view>
+      </scroll-view>
+      
+      <view class="modal-footer">
+        <button class="btn-cancel" bindtap="hideAddModal">取消</button>
+        <button class="btn-confirm" bindtap="submitProduct" loading="{{submitting}}">确定提交</button>
+      </view>
+    </view>
+  </view>
+</view>

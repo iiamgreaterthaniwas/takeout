@@ -1,0 +1,83 @@
+.profile-container {
+  padding: 24rpx;
+  background-color: var(--background-color);
+  min-height: 100vh;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  padding: 40rpx;
+  margin-bottom: 24rpx;
+  background: var(--card-bg);
+  border-radius: 20rpx;
+  box-shadow: 0 4rpx 16rpx rgba(0,0,0,0.04);
+}
+
+.avatar {
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 60rpx;
+  background: var(--background-color);
+  margin-right: 30rpx;
+  border: 4rpx solid var(--card-bg);
+  box-shadow: 0 4rpx 12rpx rgba(0,0,0,0.08);
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+}
+
+.nickname {
+  font-size: 36rpx;
+  font-weight: bold;
+  color: var(--text-main);
+  margin-bottom: 10rpx;
+}
+
+.role {
+  font-size: 24rpx;
+  color: var(--text-muted);
+}
+
+.menu-list {
+  padding: 0 30rpx;
+  margin-bottom: 30rpx;
+  background: var(--card-bg);
+  border-radius: 20rpx;
+  box-shadow: 0 4rpx 16rpx rgba(0,0,0,0.04);
+}
+
+.menu-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 110rpx;
+  border-bottom: 1rpx solid var(--border-color);
+  transition: all 0.2s;
+}
+
+.menu-item:active {
+  opacity: 0.7;
+  background-color: var(--background-color);
+}
+
+.menu-item:last-child {
+  border-bottom: none;
+}
+
+.menu-item text {
+  font-size: 30rpx;
+  color: var(--text-main);
+}
+
+.arrow {
+  color: var(--text-muted);
+  font-size: 24rpx;
+}
+
+.logout-text {
+  color: var(--danger-color) !important;
+  font-weight: 500;
+}
