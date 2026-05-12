@@ -4,18 +4,9 @@
 set -e
 
 APP_ROOT="/var/www/takeout"
-GIT_REPO="https://github.com/iiamgreaterthaniwas/takeout.git"
 
 echo ">>> 进入项目目录..."
-if [ ! -d "$APP_ROOT/.git" ]; then
-    echo ">>> 克隆代码库..."
-    git clone $GIT_REPO $APP_ROOT
-    cd $APP_ROOT
-else
-    echo ">>> 拉取最新代码..."
-    cd $APP_ROOT
-    git pull origin main
-fi
+cd $APP_ROOT
 
 # 1. 部署后端
 echo ">>> 部署后端..."
