@@ -14,6 +14,7 @@ cd server
 npm install
 cp .env.production .env
 npx prisma generate
+npx prisma db push
 npm run build
 pm2 delete takeout-server || true
 pm2 start dist/main.js --name takeout-server
