@@ -23,16 +23,7 @@ pm2 start dist/main.js --name takeout-server
 echo ">>> 初始化数据库数据..."
 node seed.js
 
-# 2. 部署前端
-echo ">>> 部署前端..."
-cd ../admin-web
-npm install
-npm run build
-# 复制到 nginx 目录
-sudo mkdir -p /var/www/takeout/admin-web
-sudo cp -r dist/* /var/www/takeout/admin-web/
-
-# 3. 配置 Nginx
+# 2. 配置 Nginx
 echo ">>> 配置 Nginx..."
 sudo cp ../deploy/nginx.conf /etc/nginx/sites-available/takeout
 sudo ln -sf /etc/nginx/sites-available/takeout /etc/nginx/sites-enabled/
