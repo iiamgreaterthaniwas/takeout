@@ -3,7 +3,7 @@ console.log('upload.js is loading...');
 const uploadFile = (tempFilePath) => {
   return new Promise((resolve, reject) => {
     const app = getApp();
-    const baseUrl = (app && app.globalData && app.globalData.baseUrl) || 'http://127.0.0.1:3000';
+    const baseUrl = (app && app.globalData && app.globalData.baseUrl) || 'http://39.105.33.42/api';
     const token = wx.getStorageSync('token');
     
     wx.uploadFile({
